@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mobile Programming Reviewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#131a24;
+    --panel-2:#171f2c;
+    --line:#25313f;
+    --text:#dbe4ee;
+    --dim:#7c8a9c;
+    --accent:#39d98a;
+    --accent-dim:#1f6b48;
+    --bad:#ff6b6b;
+    --bad-dim:#5c2626;
+    --amber:#f0b64c;
+    --blue:#5aa9e6;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(57,217,138,0.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    display:flex;
+    min-height:100vh;
+  }
+  ::selection{background:var(--accent-dim);}
+  button{font-family:var(--mono);}
+
+  #sidebar{
+    width:290px; flex:0 0 290px;
+    background:var(--panel);
+    border-right:1px solid var(--line);
+    padding:18px 16px 16px;
+    display:flex; flex-direction:column; gap:12px;
+    position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .brand{font-family:var(--mono); font-size:12px; letter-spacing:.12em; color:var(--accent); text-transform:uppercase;}
+  .brand-sub{font-size:17px; font-weight:600; line-height:1.25; margin-top:4px;}
+
+  .sideBlock{background:var(--panel-2); border:1px solid var(--line); border-radius:8px; padding:10px 12px;}
+  .sideBlock label{font-family:var(--mono); font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:6px;}
+  select.sideSelect{
+    width:100%; background:#0a0f16; color:var(--text); border:1px solid var(--line);
+    border-radius:6px; padding:8px 9px; font-family:var(--mono); font-size:12.5px;
+  }
+
+  #modeTabs{display:flex; gap:6px;}
+  .modeTab{
+    flex:1; text-align:center; padding:8px 4px; border-radius:6px; border:1px solid var(--line);
+    background:#0a0f16; color:var(--dim); font-family:var(--mono); font-size:11.5px; cursor:pointer;
+    text-transform:uppercase; letter-spacing:.03em;
+  }
+  .modeTab.active{background:rgba(57,217,138,0.14); color:var(--accent); border-color:var(--accent);}
+
+  .toggleRow{display:flex; align-items:center; justify-content:space-between; font-family:var(--mono); font-size:12px; margin-bottom:6px;}
+  .toggleRow:last-child{margin-bottom:0;}
+  .switch{position:relative; width:34px; height:18px; flex:0 0 auto;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; cursor:pointer; inset:0; background:#0a0f16; border:1px solid var(--line); border-radius:18px; transition:.15s;}
+  .slider:before{content:""; position:absolute; height:12px; width:12px; left:2px; top:2px; background:var(--dim); border-radius:50%; transition:.15s;}
+  .switch input:checked + .slider{background:rgba(57,217,138,0.2); border-color:var(--accent);}
+  .switch input:checked + .slider:before{transform:translateX(15px); background:var(--accent);}
+
+  #scoreWrap .row{display:flex; justify-content:space-between; margin-bottom:4px; font-family:var(--mono); font-size:12px;}
+  #scoreWrap .row:last-child{margin-bottom:0;}
+  #scoreWrap .val{color:var(--accent);}
+  #progressBarOuter{height:6px; background:#0a0f16; border-radius:4px; overflow:hidden; margin-top:8px; border:1px solid var(--line);}
+  #progressBarInner{height:100%; width:0%; background:linear-gradient(90deg,var(--accent-dim),var(--accent)); transition:width .25s ease;}
+
+  #navGrid{display:grid; grid-template-columns:repeat(6,1fr); gap:5px; overflow-y:auto; max-height:180px;}
+  .navBtn{
+    aspect-ratio:1/1; border:1px solid var(--line); background:var(--panel-2); color:var(--dim);
+    font-family:var(--mono); font-size:10.5px; border-radius:6px; position:relative;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:all .15s ease;
+  }
+  .navBtn:hover{border-color:var(--accent); color:var(--text);}
+  .navBtn.picked{background:rgba(240,182,76,0.1); color:var(--amber); border-color:rgba(240,182,76,0.4);}
+  .navBtn.current{outline:2px solid var(--accent); outline-offset:1px;}
+  .navBtn.correct{background:rgba(57,217,138,0.18); color:var(--accent); border-color:var(--accent);}
+  .navBtn.incorrect{background:rgba(255,107,107,0.15); color:var(--bad); border-color:var(--bad);}
+  .navBtn .bmDot{position:absolute; top:1px; right:1px; width:5px; height:5px; border-radius:50%; background:var(--amber);}
+
+  .sideActionBtn{
+    background:var(--panel-2); color:var(--text); border:1px solid var(--line);
+    font-family:var(--mono); font-weight:600; font-size:11.5px; letter-spacing:.02em;
+    padding:9px; border-radius:8px; cursor:pointer; text-transform:uppercase; width:100%;
+  }
+  .sideActionBtn:hover{border-color:var(--accent); color:var(--accent);}
+  .sideActionBtn.primary{background:var(--accent); color:#0a1510; border:none;}
+  .sideActionBtn.primary:hover{filter:brightness(1.08); color:#0a1510;}
+
+  #validationBanner{
+    display:none; background:rgba(255,107,107,0.08); border:1px solid var(--bad-dim);
+    color:var(--bad); font-family:var(--mono); font-size:11px; border-radius:8px; padding:8px 10px;
+    max-height:120px; overflow-y:auto; white-space:pre-wrap;
+  }
+
+  #main{flex:1; padding:32px 44px 70px; max-width:920px; margin:0 auto; min-width:0;}
+  .topBar{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;}
+  .topBar h1{font-size:18px; margin:0; font-family:var(--mono);}
+  .panelTab{
+    padding:7px 14px; border-radius:20px; border:1px solid var(--line); background:var(--panel-2);
+    color:var(--dim); font-family:var(--mono); font-size:11.5px; cursor:pointer;
+  }
+
+  .qMeta{font-family:var(--mono); font-size:12px; color:var(--dim); display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;}
+  .qMeta .tags{display:flex; gap:6px; flex-wrap:wrap;}
+  .qMeta .tag{border:1px solid var(--line); padding:2px 8px; border-radius:20px;}
+  .tag.difficulty-Easy{color:var(--accent);}
+  .tag.difficulty-Medium{color:var(--amber);}
+  .tag.difficulty-Hard{color:var(--bad);}
+  #bookmarkBtn{
+    border:1px solid var(--line); background:var(--panel-2); color:var(--dim);
+    border-radius:6px; padding:5px 10px; cursor:pointer; font-family:var(--mono); font-size:12px;
+  }
+  #bookmarkBtn.on{color:var(--amber); border-color:var(--amber); background:rgba(240,182,76,0.1);}
+
+  .qStem{font-size:16.5px; line-height:1.6; white-space:pre-wrap; margin-bottom:14px;}
+  pre.code{
+    background:#0a0f16; border:1px solid var(--line); border-left:3px solid var(--accent-dim);
+    border-radius:6px; padding:16px 18px; font-family:var(--mono); font-size:13px;
+    line-height:1.6; overflow-x:auto; color:#b9e6cd; margin:0 0 16px; white-space:pre-wrap;
+  }
+  pre.code.solution{border-left-color:var(--accent);}
+  .solutionLabel{font-family:var(--mono); font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.06em; margin:14px 0 6px;}
+  .hint{font-family:var(--mono); font-size:11.5px; color:var(--dim); margin:-6px 0 14px;}
+
+  .choiceList{display:flex; flex-direction:column; gap:8px; margin-bottom:16px;}
+  .choice{
+    display:flex; gap:12px; align-items:flex-start; background:var(--panel);
+    border:1px solid var(--line); border-radius:8px; padding:12px 14px; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .choice:hover{border-color:var(--accent-dim);}
+  .choice input{margin-top:3px; accent-color:var(--accent);}
+  .choice .letter{font-family:var(--mono); color:var(--dim); font-size:12px; min-width:16px;}
+  .choice .txt{white-space:pre-wrap; font-size:14.5px; line-height:1.5;}
+  .choice.selected{border-color:var(--accent); background:rgba(57,217,138,0.06);}
+  .choice.showCorrect{border-color:var(--accent); background:rgba(57,217,138,0.14);}
+  .choice.showWrong{border-color:var(--bad); background:rgba(255,107,107,0.1);}
+  .choice.locked{cursor:default;}
+
+  #actionRow{display:flex; gap:10px; margin-bottom:8px; flex-wrap:wrap;}
+  #actionRow button{
+    font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:.02em;
+    padding:10px 20px; border-radius:8px; border:none;
+    background:var(--accent); color:#0a1510; cursor:pointer; text-transform:uppercase;
+  }
+  #actionRow button:hover{filter:brightness(1.08);}
+  #actionRow button:disabled{opacity:.35; cursor:not-allowed; filter:none;}
+  #actionRow button.secondary{background:var(--panel-2); color:var(--text); border:1px solid var(--line);}
+  #actionRow button.secondary:hover{border-color:var(--accent); color:var(--accent); filter:none;}
+  #actionRow button.warn{background:var(--amber); color:#221a05;}
+
+  #feedbackBox{margin-top:4px; margin-bottom:12px; padding:12px 14px; border-radius:8px; font-family:var(--mono); font-size:13px; display:none;}
+  #feedbackBox.ok{display:block; background:rgba(57,217,138,0.1); border:1px solid var(--accent-dim); color:var(--accent);}
+  #feedbackBox.bad{display:block; background:rgba(255,107,107,0.08); border:1px solid var(--bad-dim); color:var(--bad);}
+  #feedbackBox .partial{color:var(--amber); font-family:var(--mono); font-size:12px; margin-top:6px;}
+  #feedbackBox .expl{color:var(--text); font-family:var(--sans); font-size:13.5px; margin-top:8px; line-height:1.5;}
+
+  .blankResult{padding:1px 4px; border-radius:4px;}
+  .blankResult.ok{background:rgba(57,217,138,0.18); color:var(--accent);}
+  .blankResult.bad{background:rgba(255,107,107,0.15); color:var(--bad);}
+  .blankCorrectHint{color:var(--amber); margin-left:4px;}
+  input.blankInput{
+    background:#0a0f16; color:#b9e6cd; border:1px solid var(--accent-dim); border-radius:4px;
+    padding:2px 6px; font-family:var(--mono); font-size:13px;
+  }
+  input.blankInput:focus{outline:none; border-color:var(--accent);}
+
+  .navRow{display:flex; justify-content:space-between; margin-top:22px; gap:12px;}
+  .navRow button{
+    font-family:var(--mono); font-size:13px; padding:11px 20px; border-radius:8px;
+    border:1px solid var(--line); background:var(--panel-2); color:var(--text); cursor:pointer;
+  }
+  .navRow button:hover{border-color:var(--accent);}
+  .navRow button:disabled{opacity:.35; cursor:not-allowed;}
+
+  #resultsScreen, #historyScreen, #reviewScreen{display:none;}
+  .scoreCard{text-align:center; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:40px 28px; margin-bottom:20px;}
+  .scoreCard .big{font-family:var(--mono); font-size:56px; font-weight:700; color:var(--accent);}
+  .scoreCard .sub{color:var(--dim); font-family:var(--mono); font-size:13px; margin-top:6px;}
+  .scoreCard .sub2{color:var(--amber); font-family:var(--mono); font-size:12px; margin-top:6px;}
+  .topicBreakdown{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:20px;}
+  .topicBreakdown h3{margin:0 0 10px; font-family:var(--mono); font-size:12px; text-transform:uppercase; color:var(--dim);}
+  .topicRow{display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:13px;}
+  .topicRow .tname{flex:0 0 210px; color:var(--text);}
+  .topicBar{flex:1; height:8px; background:#0a0f16; border:1px solid var(--line); border-radius:4px; overflow:hidden;}
+  .topicBar>div{height:100%; background:linear-gradient(90deg,var(--accent-dim),var(--accent));}
+  .topicRow .tscore{width:52px; text-align:right; font-family:var(--mono); color:var(--dim); font-size:12px;}
+
+  .resultsGrid{display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin-bottom:20px;}
+  .rBox{
+    aspect-ratio:1/1; border-radius:5px; font-family:var(--mono); font-size:11px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid var(--line);
+  }
+  .rBox.correct{background:rgba(57,217,138,0.18); color:var(--accent); border-color:var(--accent);}
+  .rBox.incorrect{background:rgba(255,107,107,0.15); color:var(--bad); border-color:var(--bad);}
+  .rBox.unattempted{background:var(--panel-2); color:var(--dim); border-color:var(--line);}
+
+  .filterRow{display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;}
+  .filterRow button{
+    font-family:var(--mono); font-size:12px; padding:8px 14px; border-radius:20px;
+    border:1px solid var(--line); background:var(--panel-2); color:var(--text); cursor:pointer;
+  }
+  .filterRow button.active{background:rgba(90,169,230,0.14); color:var(--blue); border-color:var(--blue);}
+
+  .actionsRow{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  .actionsRow button{
+    font-family:var(--mono); font-size:13px; padding:12px 22px; border-radius:8px;
+    border:1px solid var(--line); background:var(--panel-2); color:var(--text); cursor:pointer;
+  }
+  .actionsRow button.primary{background:var(--accent); color:#0a1510; border:none; font-weight:700;}
+  .actionsRow button:hover{border-color:var(--accent);}
+
+  .reviewList{display:flex; flex-direction:column; gap:6px;}
+  .reviewItem{
+    background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px 14px;
+    cursor:pointer; font-size:13.5px; display:flex; justify-content:space-between; gap:10px;
+  }
+  .reviewItem:hover{border-color:var(--accent);}
+  .reviewItem .rstat{font-family:var(--mono); font-size:11px; flex:0 0 auto;}
+  .reviewItem .rstat.correct{color:var(--accent);}
+  .reviewItem .rstat.incorrect{color:var(--bad);}
+  .reviewItem .rstat.unattempted{color:var(--dim);}
+
+  .historyItem{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 16px; margin-bottom:10px; font-size:13px;}
+  .historyItem .hTop{display:flex; justify-content:space-between; font-family:var(--mono); color:var(--dim); margin-bottom:6px; gap:10px; flex-wrap:wrap;}
+  .historyItem .hScore{color:var(--accent); font-weight:700;}
+
+  @media(max-width:860px){
+    body{flex-direction:column;}
+    #sidebar{position:relative; width:100%; height:auto; flex:none;}
+    #main{padding:20px 16px 50px;}
+    .resultsGrid{grid-template-columns:repeat(6,1fr);}
+    .topicRow{flex-wrap:wrap;}
+    .topicRow .tname{flex:0 0 110px; font-size:12px;}
+    .qStem{font-size:15.5px;}
+    pre.code{font-size:12px; padding:12px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div>
+    <div class="brand">// android.kt</div>
+    <div class="brand-sub">Mobile Programming Reviewer</div>
+  </div>
+
+  <div class="sideBlock">
+    <label for="setSelect">Question Set</label>
+    <select id="setSelect" class="sideSelect"></select>
+  </div>
+
+  <div class="sideBlock">
+    <label>Mode</label>
+    <div id="modeTabs">
+      <div class="modeTab" data-mode="study">Study</div>
+      <div class="modeTab" data-mode="practice">Practice</div>
+      <div class="modeTab" data-mode="exam">Exam</div>
+    </div>
+  </div>
+
+  <div class="sideBlock">
+    <label>Settings</label>
+    <div class="toggleRow">
+      <span>Shuffle Questions</span>
+      <label class="switch"><input type="checkbox" id="shuffleQToggle"><span class="slider"></span></label>
+    </div>
+    <div class="toggleRow">
+      <span>Shuffle Options</span>
+      <label class="switch"><input type="checkbox" id="shuffleOToggle"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <div class="sideBlock" id="scoreWrap">
+    <div class="row"><span>ATTEMPTED</span><span class="val" id="attemptedText">0 / 0</span></div>
+    <div class="row"><span>CORRECT</span><span class="val" id="correctText">0</span></div>
+    <div class="row"><span>BOOKMARKED</span><span class="val" id="bookmarkedText">0</span></div>
+    <div id="progressBarOuter"><div id="progressBarInner"></div></div>
+  </div>
+
+  <div id="navGrid"></div>
+
+  <button class="sideActionBtn" id="reviewSideBtn">🔍 Review Questions</button>
+  <button class="sideActionBtn" id="historySideBtn">📜 Attempt History</button>
+  <button class="sideActionBtn primary" id="resetSideBtn">↺ Reset Session</button>
+
+  <div id="validationBanner"></div>
+</div>
+
+<div id="main">
+
+  <div id="quizScreen">
+    <div class="topBar">
+      <h1 id="setTitle">Quiz</h1>
+    </div>
+
+    <div class="qMeta">
+      <span id="qCounter">Question 1 / 10</span>
+      <div class="tags">
+        <span class="tag" id="qTypeTag">SINGLE</span>
+        <span class="tag" id="qDiffTag">Easy</span>
+        <span class="tag" id="qTopicTag">Topic</span>
+      </div>
+      <button id="bookmarkBtn">☆ Bookmark</button>
+    </div>
+
+    <div class="qStem" id="qStem"></div>
+    <div id="qBody"></div>
+
+    <div id="actionRow">
+      <button id="submitBtn" disabled>Submit Answer</button>
+      <button id="tryAgainBtn" class="warn" style="display:none;">Try Again</button>
+      <button id="finishBtn" class="secondary" style="display:none;">Finish &amp; Score</button>
+    </div>
+    <div id="feedbackBox"></div>
+    <div id="solutionBox"></div>
+
+    <div class="navRow">
+      <button id="prevBtn">◂ Previous</button>
+      <button id="nextBtn">Next ▸</button>
+    </div>
+  </div>
+
+  <div id="resultsScreen">
+    <div class="scoreCard">
+      <div class="big" id="scoreBig">0%</div>
+      <div class="sub" id="scoreSub">0 of 0 correct</div>
+      <div class="sub2" id="scoreWarn"></div>
+    </div>
+    <div class="topicBreakdown" id="topicBreakdown"></div>
+    <div class="resultsGrid" id="resultsGrid"></div>
+    <div class="actionsRow">
+      <button class="primary" id="retryIncorrectBtn">Retry Incorrect</button>
+      <button id="backToQuizBtn">Back to Quiz</button>
+      <button id="retakeBtn">Retake Full Set</button>
+    </div>
+  </div>
+
+  <div id="reviewScreen">
+    <div class="topBar"><h1>Review Questions</h1><button class="panelTab" id="closeReviewBtn">✕ Close</button></div>
+    <div class="filterRow">
+      <button data-f="incorrect" class="active">Incorrect</button>
+      <button data-f="unanswered">Unanswered</button>
+      <button data-f="bookmarked">Bookmarked</button>
+      <button data-f="all">All</button>
+    </div>
+    <div class="reviewList" id="reviewList"></div>
+  </div>
+
+  <div id="historyScreen">
+    <div class="topBar"><h1>Attempt History</h1><button class="panelTab" id="closeHistoryBtn">✕ Close</button></div>
+    <div id="historyList"></div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   QUESTION DATA — Mobile Programming Reviewer
+   Module 1  — Introduction to Android
+   Module 2  — Android Studio
+   Module 3  — Introduction to Kotlin
+   Module 4  — Application Components and Resources
+   Comprehensive Quiz — Mixed questions from Modules 1-4
+========================================================================= */
+const QUESTION_SETS = {
+
+"module1": {
+  title: "Module 1 — Introduction to Android",
+  questions: [
+
+{id:"m1-1", type:"single", topic:"Android History", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`What mobile operating system foundation is Android built on?`,
+ opts:[["A",`Windows`],["B",`Linux`],["C",`macOS`],["D",`Symbian`]], ans:"B",
+ explanation:`Android is described as a mobile operating system based on Linux.`},
+
+{id:"m1-2", type:"single", topic:"Android History", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Which company originally developed Android before Google's involvement?`,
+ opts:[["A",`Google`],["B",`Android Inc.`],["C",`JetBrains`],["D",`Samsung`]], ans:"B",
+ explanation:`Android was originally developed by Android Inc., which Google later purchased.`},
+
+{id:"m1-3", type:"single", topic:"Android History", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`In what year did Google purchase Android Inc.?`,
+ opts:[["A",`2003`],["B",`2005`],["C",`2008`],["D",`2010`]], ans:"B",
+ explanation:`The module states that Google purchased Android Inc. in 2005.`},
+
+{id:"m1-4", type:"single", topic:"Android History", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which statement best describes the licensing nature of Android OS as presented in the module?`,
+ opts:[["A",`Closed-source and paid`],["B",`Open and free`],["C",`Open-source but requires a per-device license`],["D",`Proprietary to Google only`]], ans:"B",
+ explanation:`The module states that Android OS is open and free.`},
+
+{id:"m1-5", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version was the first to be released with an official codename?`,
+ opts:[["A",`Android 1.0`],["B",`Android 1.1`],["C",`Android 1.5 (Cupcake)`],["D",`Android 1.6 (Donut)`]], ans:"C",
+ explanation:`Android 1.0 and 1.1 were released without a codename; Android 1.5 (Cupcake), released April 2009, was the first version released with an official codename.`},
+
+{id:"m1-6", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version introduced the "OK Google" feature, allowing access to Google Now without touching the phone?`,
+ opts:[["A",`4.4 (KitKat)`],["B",`5.0 (Lollipop)`],["C",`6.0 (Marshmallow)`],["D",`7.0 (Nougat)`]], ans:"A",
+ explanation:`Android 4.4 (KitKat) added "OK Google," which lets the user access Google Now hands-free.`},
+
+{id:"m1-7", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Android 5.0 and 5.1 (Lollipop) introduced support for which Android runtime component?`,
+ opts:[["A",`Dalvik`],["B",`ART (Android RunTime)`],["C",`Zygote`],["D",`Binder`]], ans:"B",
+ explanation:`Lollipop introduced support for ART (Android RunTime), alongside material design and other improvements.`},
+
+{id:"m1-8", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version first introduced fingerprint authentication?`,
+ opts:[["A",`5.0 (Lollipop)`],["B",`6.0 (Marshmallow)`],["C",`7.0 (Nougat)`],["D",`8.0 (Oreo)`]], ans:"B",
+ explanation:`Android 6.0 (Marshmallow) introduced fingerprint authentication along with USB Type-C support.`},
+
+{id:"m1-9", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version introduced native split-screen mode along with a data saver feature?`,
+ opts:[["A",`6.0 (Marshmallow)`],["B",`7.0 (Nougat)`],["C",`8.0 (Oreo)`],["D",`9.0 (Pie)`]], ans:"B",
+ explanation:`Android 7.0 (Nougat) was announced with native split-screen mode and a data saver feature.`},
+
+{id:"m1-10", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which display/multitasking feature was introduced in Android 8.0 (Oreo)?`,
+ opts:[["A",`Split-screen mode`],["B",`Picture-in-Picture (PIP)`],["C",`One-Handed Mode`],["D",`Scrolling Screenshots`]], ans:"B",
+ explanation:`Android 8.0 (Oreo) added support for Picture-in-Picture (PIP) mode, along with multi-display support and adaptive icons.`},
+
+{id:"m1-11", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version added a system-wide dark theme/mode along with new background location permissions?`,
+ opts:[["A",`Android 9 (Pie)`],["B",`Android 10`],["C",`Android 11`],["D",`Android 12`]], ans:"B",
+ explanation:`Android 10 introduced a new system-wide dark theme/mode and new permissions for accessing location in the background.`},
+
+{id:"m1-12", type:"single", topic:"Android Versions", difficulty:"Hard", source:"Module 1 — Introduction to Android",
+ stem:`Which internal codename corresponds to Android 12, released October 2021?`,
+ opts:[["A",`Red Velvet Cake`],["B",`Snow Cone`],["C",`Tiramisu`],["D",`Quince Tart`]], ans:"B",
+ explanation:`Android 12, released in October 2021, was internally known as "Snow Cone."`},
+
+{id:"m1-13", type:"single", topic:"Android Versions", difficulty:"Hard", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version, released August 2022, was internally known as "Tiramisu" and added improved security features and digital car keys?`,
+ opts:[["A",`Android 12`],["B",`Android 13`],["C",`Android 14`],["D",`Android 15`]], ans:"B",
+ explanation:`Android 13, released August 15, 2022, was internally known as "Tiramisu" and introduced improved security features and digital car keys among other updates.`},
+
+{id:"m1-14", type:"single", topic:"Android Architecture", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`How many major layers make up the Android software stack described in the module?`,
+ opts:[["A",`3`],["B",`4`],["C",`5`],["D",`6`]], ans:"C",
+ explanation:`The module lists five layers: Applications, Android Framework, Android Runtime, Platform Libraries, and Linux Kernel.`},
+
+{id:"m1-15", type:"single", topic:"Android Architecture", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which layer of the Android architecture is described as providing the main operating system functions to the mobile device?`,
+ opts:[["A",`Android Framework`],["B",`Platform Libraries`],["C",`Linux Kernel`],["D",`Android Runtime`]], ans:"C",
+ explanation:`The module states the Linux Kernel is the main component providing operating system functions to the mobile device.`},
+
+{id:"m1-16", type:"single", topic:"Android Architecture", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`According to the module, which component is responsible for running a mobile application within the Android architecture?`,
+ opts:[["A",`Linux Kernel`],["B",`Dalvik Virtual Machine (DVM)`],["C",`Platform Libraries`],["D",`Application Framework`]], ans:"B",
+ explanation:`The module states the Dalvik Virtual Machine (DVM) is responsible for running a mobile application, working alongside the Linux Kernel, which provides the OS functions.`}
+
+  ]
+},
+
+"module2": {
+  title: "Module 2 — Android Studio",
+  questions: [
+
+{id:"m2-1", type:"single", topic:"Setup & Requirements", difficulty:"Easy", source:"Module 2 — Android Studio",
+ stem:`Which two items are listed as prerequisites before installing Android Studio?`,
+ opts:[["A",`JDK and Android Studio`],["B",`Python and Node.js`],["C",`Xcode and JDK`],["D",`Git and Gradle only`]], ans:"A",
+ explanation:`The module lists the JDK and Android Studio itself as the prerequisites to obtain before setting up the development environment.`},
+
+{id:"m2-2", type:"single", topic:"Project Creation", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`In the "Choose your project" window of the new project wizard, which template is selected in the walkthrough?`,
+ opts:[["A",`No Activity`],["B",`Empty Activity`],["C",`Basic Views Activity`],["D",`Navigation Drawer Views Activity`]], ans:"B",
+ explanation:`The walkthrough selects the "Empty Activity" template before clicking Next.`},
+
+{id:"m2-3", type:"single", topic:"Project Creation", difficulty:"Easy", source:"Module 2 — Android Studio",
+ stem:`In the "Configure your project" window, which checkbox should be checked to include AndroidX support?`,
+ opts:[["A",`"Use AndroidX artifacts"`],["B",`"Enable Legacy Support"`],["C",`"Use Kotlin DSL"`],["D",`"Enable Instant Apps"`]], ans:"A",
+ explanation:`The module instructs checking the box next to "Use AndroidX artifacts" when configuring the new project.`},
+
+{id:"m2-4", type:"single", topic:"Project Creation", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`What package name is used as an example in the "Configure your project" walkthrough?`,
+ opts:[["A",`com.android.myfirstapp`],["B",`com.example.myfirstapp`],["C",`com.google.myfirstapp`],["D",`com.myfirstapp.example`]], ans:"B",
+ explanation:`The walkthrough uses "com.example.myfirstapp" as the example package name while the project is named "My First App."`},
+
+{id:"m2-5", type:"single", topic:"Project Creation", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`In the new project wizard, which dropdown lets a developer choose to write their app in Java instead of the default language?`,
+ opts:[["A",`Theme dropdown`],["B",`Minimum SDK dropdown`],["C",`Language dropdown`],["D",`Activity dropdown`]], ans:"C",
+ explanation:`The module notes that if you prefer to write your app in Java, you select Java from the Language dropdown.`},
+
+{id:"m2-6", type:"single", topic:"Running Apps", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`A developer wants to run their app on their own physical Android phone. Which setting must be enabled on the device first?`,
+ opts:[["A",`Airplane Mode`],["B",`USB Debugging (via Developer options)`],["C",`Battery Saver`],["D",`Do Not Disturb`]], ans:"B",
+ explanation:`Testing on a real device requires connecting the phone to the computer and making sure USB Debugging is enabled, which requires enabling Developer options first.`},
+
+{id:"m2-7", type:"single", topic:"Running Apps", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`A developer without a physical Android phone wants to test their app. Where in Android Studio should they go to create a virtual device?`,
+ opts:[["A",`Device Manager`],["B",`SDK Manager`],["C",`Version Control tool window`],["D",`Build Variants panel`]], ans:"A",
+ explanation:`The module instructs navigating to Device Manager and selecting "Create Device" to set up an emulator.`},
+
+{id:"m2-8", type:"single", topic:"Running Apps", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`When creating a virtual device in Device Manager, which of the following must the developer select?`,
+ opts:[["A",`Screen size and kind of phone, and the Android SDK version`],["B",`Only the screen resolution`],["C",`Only the manufacturer name`],["D",`Only the amount of RAM`]], ans:"A",
+ explanation:`The module states you select your screen size and kind of phone, then select the Android SDK version when creating a device.`},
+
+{id:"m2-9", type:"single", topic:"Studio Interface", difficulty:"Easy", source:"Module 2 — Android Studio",
+ stem:`Which part of the Android Studio interface lets you carry out actions such as running your app and launching Android tools?`,
+ opts:[["A",`Status bar`],["B",`Toolbar`],["C",`Tool window bar`],["D",`Navigation bar`]], ans:"B",
+ explanation:`The toolbar lets you carry out a wide range of actions, including running your app and launching Android tools.`},
+
+{id:"m2-10", type:"single", topic:"Studio Interface", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`Which interface element helps you navigate through your project and open files, providing a compact view of the Project window's structure?`,
+ opts:[["A",`Editor window`],["B",`Tool windows`],["C",`Navigation bar`],["D",`Status bar`]], ans:"C",
+ explanation:`The navigation bar helps you navigate through your project and open files for editing, offering a more compact view than the Project window.`},
+
+{id:"m2-11", type:"single", topic:"Studio Interface", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`Where in Android Studio do you create and modify code, with the view changing depending on file type (for example, showing the Layout Editor for a layout file)?`,
+ opts:[["A",`Tool window bar`],["B",`Editor window`],["C",`Status bar`],["D",`Toolbar`]], ans:"B",
+ explanation:`The editor window is where you create and modify code, and it changes appearance depending on the current file type.`},
+
+{id:"m2-12", type:"single", topic:"Studio Interface", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`Which interface element runs around the outside of the IDE window and contains buttons to expand or collapse individual tool windows?`,
+ opts:[["A",`Tool window bar`],["B",`Navigation bar`],["C",`Toolbar`],["D",`Status bar`]], ans:"A",
+ explanation:`The tool window bar runs around the outside of the IDE window and contains the buttons that allow you to expand or collapse individual tool windows.`}
+
+  ]
+},
+
+"module3": {
+  title: "Module 3 — Introduction to Kotlin",
+  questions: [
+
+{id:"m3-1", type:"single", topic:"Kotlin Overview", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`In what year was Kotlin released by JetBrains?`,
+ opts:[["A",`2011`],["B",`2014`],["C",`2016`],["D",`2019`]], ans:"C",
+ explanation:`The module states Kotlin is a modern, trending programming language released in 2016 by JetBrains.`},
+
+{id:"m3-2", type:"single", topic:"Kotlin Overview", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which of the following is stated as an advantage of Kotlin in the module?`,
+ opts:[["A",`It only runs on Windows`],["B",`It is concise, safe, and free to use`],["C",`It requires a paid license`],["D",`It cannot interoperate with Java`]], ans:"B",
+ explanation:`The module describes Kotlin as concise and safe, free to use, and compatible with Java.`},
+
+{id:"m3-3", type:"single", topic:"Kotlin Overview", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`According to the module, Kotlin can be used for all of the following EXCEPT:`,
+ opts:[["A",`Mobile applications`],["B",`Server-side applications`],["C",`Data science`],["D",`Operating system kernels`]], ans:"D",
+ explanation:`The module lists mobile applications, web development, server-side applications, and data science as uses of Kotlin; operating system kernels are not mentioned.`},
+
+{id:"m3-4", type:"single", topic:"Kotlin Fundamentals", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which keyword is used to declare a function in Kotlin?`,
+ opts:[["A",`func`],["B",`fun`],["C",`def`],["D",`function`]], ans:"B",
+ explanation:`The fun keyword is used to declare a function in Kotlin.`},
+
+{id:"m3-5", type:"single", topic:"Kotlin Fundamentals", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which function must be present for a Kotlin program to execute?`,
+ opts:[["A",`start()`],["B",`run()`],["C",`main()`],["D",`init()`]], ans:"C",
+ explanation:`The main() function is needed to execute a Kotlin program.`},
+
+{id:"m3-6", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Do Kotlin code statements need to end with a semicolon?`,
+ opts:[["A",`Yes, always`],["B",`No, semicolons are not required`],["C",`Only inside functions`],["D",`Only for variable declarations`]], ans:"B",
+ explanation:`The module states that in Kotlin, code statements do not have to end with a semicolon.`},
+
+{id:"m3-7", type:"single", topic:"Kotlin Fundamentals", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`How are multi-line comments written in Kotlin?`,
+ opts:[["A",`# ... #`],["B",`// ... //`],["C",`/* ... */`],["D",`<!-- ... -->`]], ans:"C",
+ explanation:`The module shows multi-line comments written between /* and */, while // is used for single-line comments.`},
+
+{id:"m3-8", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`What is the key difference between the val and var keywords in Kotlin?`,
+ opts:[["A",`val is mutable, var is immutable`],["B",`val is immutable, var is mutable`],["C",`Both are always mutable`],["D",`Both are always immutable`]], ans:"B",
+ explanation:`val creates a variable reference that is immutable (cannot be modified after initialization), while var creates a mutable reference (can be modified after initialization).`},
+
+{id:"m3-9", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Why can Kotlin variables often be declared without explicitly stating their type?`,
+ opts:[["A",`Kotlin does not support typed variables`],["B",`Type inference`],["C",`All variables are strings by default`],["D",`Types are declared separately in a config file`]], ans:"B",
+ explanation:`The module states Kotlin does not require mentioning the type of a variable when declaring it, thanks to type inference.`},
+
+{id:"m3-10", type:"single", topic:"Kotlin Fundamentals", difficulty:"Hard", source:"Module 3 — Introduction to Kotlin",
+ stem:`A developer declares a variable with val and later tries to reassign it a new value. What happens?`,
+ opts:[["A",`The reassignment succeeds silently`],["B",`The reassignment fails because val creates an immutable reference`],["C",`Kotlin automatically converts it to var`],["D",`The program deletes the old value first`]], ans:"B",
+ explanation:`Because val makes the variable's reference immutable after initialization, attempting to reassign it fails.`},
+
+{id:"m3-11", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which Kotlin construct is best suited for evaluating a variable against many possible matching values, similar to a switch statement?`,
+ opts:[["A",`if-else expression`],["B",`when expression`],["C",`while loop`],["D",`init block`]], ans:"B",
+ explanation:`The when expression is Kotlin's construct for matching a value against multiple branches, listed alongside if, if-else, and if-else-if in the module's control-flow section.`},
+
+{id:"m3-12", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which of the following loop types are covered in the module's Kotlin fundamentals?`,
+ opts:[["A",`while, do-while, and for`],["B",`repeat-until only`],["C",`goto loops only`],["D",`foreach only`]], ans:"A",
+ explanation:`The module covers while, do-while, and for loops, including for loops using arrays and for loops using a range.`},
+
+{id:"m3-13", type:"single", topic:"Kotlin OOP", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which Kotlin construct is used to run initialization code as part of a class's construction process?`,
+ opts:[["A",`main() function`],["B",`init block`],["C",`companion object`],["D",`constructor() only`]], ans:"B",
+ explanation:`The module covers "Using init blocks" as part of Kotlin OOP, used to run initialization logic when a class is instantiated.`},
+
+{id:"m3-14", type:"single", topic:"Kotlin OOP", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`In Kotlin, where can default values for constructor parameters be specified?`,
+ opts:[["A",`Only in a secondary constructor`],["B",`In the primary constructor`],["C",`Only inside init blocks`],["D",`Kotlin does not support default parameter values`]], ans:"B",
+ explanation:`The module covers "Default value in primary constructor" as a Kotlin OOP topic, showing that default values are set directly in the primary constructor.`},
+
+{id:"m3-15", type:"single", topic:"Kotlin OOP", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Besides the primary constructor, what other kind of constructor does the module cover for Kotlin classes?`,
+ opts:[["A",`Static constructor`],["B",`Secondary constructor`],["C",`Abstract constructor`],["D",`Companion constructor`]], ans:"B",
+ explanation:`The module covers "Using the secondary constructor" as one of the Kotlin OOP topics, alongside the primary constructor.`},
+
+{id:"m3-16", type:"single", topic:"Kotlin vs Java", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`According to the comparison table, which feature is available in Kotlin but NOT available in Java?`,
+ opts:[["A",`Static members`],["B",`Wildcard types`],["C",`Null safety`],["D",`Checked exceptions`]], ans:"C",
+ explanation:`The Kotlin vs Java table lists null safety as available in Kotlin and not available in Java.`},
+
+{id:"m3-17", type:"single", topic:"Kotlin vs Java", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which statement about static members is accurate according to the comparison table?`,
+ opts:[["A",`Kotlin has static members for a class, Java does not`],["B",`Neither language supports static members`],["C",`Kotlin doesn't have a static member for a class, but it is available in Java`],["D",`Both languages lack static members`]], ans:"C",
+ explanation:`The table states Kotlin doesn't have a static member for a class, while static members are available in Java.`},
+
+{id:"m3-18", type:"single", topic:"Kotlin vs Java", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`According to the comparison table, what does Kotlin allow that ties operators to user-defined behavior rather than fixed Java types?`,
+ opts:[["A",`Wildcard types`],["B",`Operator overloading`],["C",`Checked exceptions`],["D",`Static members`]], ans:"B",
+ explanation:`The table notes Kotlin allows operator overloading (users can provide a way to invoke functions via operators), whereas in Java operators are tied to particular types.`},
+
+{id:"m3-19", type:"single", topic:"Java-to-Kotlin Conversion", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`What keyboard shortcut can be used in Android Studio to convert an open Java file to a Kotlin file?`,
+ opts:[["A",`Ctrl+Alt+Shift+K`],["B",`Ctrl+Shift+J`],["C",`Alt+Enter`],["D",`Ctrl+Alt+L`]], ans:"A",
+ explanation:`The module states you can use the shortcut Ctrl+Alt+Shift+K while the file is open in Android Studio, instead of using the right-click menu option.`},
+
+{id:"m3-20", type:"single", topic:"Java-to-Kotlin Conversion", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`When Android Studio asks for permission to configure Kotlin during conversion, which option should be selected along with the latest installed Kotlin compiler?`,
+ opts:[["A",`"Current module only"`],["B",`"All modules"`],["C",`"No modules"`],["D",`"Custom module list"`]], ans:"B",
+ explanation:`The module instructs selecting the "All modules" option and choosing the latest installed Kotlin compiler before clicking OK.`},
+
+{id:"m3-21", type:"single", topic:"Java-to-Kotlin Conversion", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`A developer creates a brand-new Kotlin file inside the java folder of an existing Java project. What message does Android Studio show, and what should the developer do next?`,
+ opts:[["A",`"Kotlin is not configured" — click configure and select "All modules" with the latest compiler`],["B",`"File type unsupported" — restart Android Studio`],["C",`"Kotlin already configured" — do nothing`],["D",`"Missing SDK" — reinstall Android Studio`]], ans:"A",
+ explanation:`The module describes Method 2: creating a new Kotlin file triggers a "Kotlin is not configured" alert; clicking "configure" and selecting All modules with the latest compiler resolves it.`}
+
+  ]
+},
+
+"module4": {
+  title: "Module 4 — Application Components and Resources",
+  questions: [
+
+{id:"m4-1", type:"single", topic:"Application Components", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which file loosely couples an Android app's components and describes how they interact?`,
+ opts:[["A",`build.gradle`],["B",`AndroidManifest.xml`],["C",`settings.gradle`],["D",`proguard-rules.pro`]], ans:"B",
+ explanation:`Application components are loosely coupled by the application manifest file AndroidManifest.xml, which describes each component and how they interact.`},
+
+{id:"m4-2", type:"single", topic:"Application Components", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which component represents a single screen with a user interface and handles user interaction?`,
+ opts:[["A",`Service`],["B",`Activity`],["C",`Content Provider`],["D",`Broadcast Receiver`]], ans:"B",
+ explanation:`An Activity dictates the UI and handles user interaction on the screen, representing a single screen with a user interface.`},
+
+{id:"m4-3", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`An email app has separate screens for viewing a list of emails, composing an email, and reading an email. Which component is used to implement each of these screens?`,
+ opts:[["A",`A single Service`],["B",`Separate Activities`],["C",`A single Content Provider`],["D",`Broadcast Receivers`]], ans:"B",
+ explanation:`The module's example describes an email application with one activity for listing emails, another for composing, and another for reading — each screen is its own Activity.`},
+
+{id:"m4-4", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which component runs in the background to perform long-running operations, such as playing music while the user is in a different app?`,
+ opts:[["A",`Activity`],["B",`Service`],["C",`Fragment`],["D",`Layout`]], ans:"B",
+ explanation:`A Service is a component that runs in the background to perform long-running operations, such as playing music without blocking the user's interaction with an activity.`},
+
+{id:"m4-5", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which component is used to respond to broadcast messages from other applications or from the system?`,
+ opts:[["A",`Content Provider`],["B",`Broadcast Receiver`],["C",`Activity`],["D",`View`]], ans:"B",
+ explanation:`Broadcast Receivers simply respond to broadcast messages from other applications or from the system.`},
+
+{id:"m4-6", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`In Android, a broadcast message sent to a Broadcast Receiver is delivered as what kind of object?`,
+ opts:[["A",`Bundle`],["B",`Intent`],["C",`ContentValues`],["D",`Cursor`]], ans:"B",
+ explanation:`Each broadcast message is broadcast as an Intent object, which the Broadcast Receiver intercepts.`},
+
+{id:"m4-7", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which component supplies data from one application to others upon request, often handled through ContentResolver methods?`,
+ opts:[["A",`Content Provider`],["B",`Service`],["C",`Fragment`],["D",`Broadcast Receiver`]], ans:"A",
+ explanation:`A Content Provider component supplies data from one application to others on request, and such requests are handled by the methods of the ContentResolver class.`},
+
+{id:"m4-8", type:"single", topic:"Application Components", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`An Activity is implemented as a subclass of which class?`,
+ opts:[["A",`Service class`],["B",`Activity class`],["C",`Fragment class`],["D",`ContentProvider class`]], ans:"B",
+ explanation:`The module states an activity is implemented as a subclass of the Activity class.`},
+
+{id:"m4-9", type:"single", topic:"Additional Components", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which additional component represents only a portion of the user interface within an Activity?`,
+ opts:[["A",`Fragment`],["B",`Manifest`],["C",`Intent`],["D",`Resource`]], ans:"A",
+ explanation:`A Fragment represents a portion of the user interface within an Activity.`},
+
+{id:"m4-10", type:"single", topic:"Additional Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which additional component is described as a "message wiring components together"?`,
+ opts:[["A",`View`],["B",`Layout`],["C",`Intent`],["D",`Resource`]], ans:"C",
+ explanation:`Intents are described in the module as messages that wire components together.`},
+
+{id:"m4-11", type:"single", topic:"Additional Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which additional component controls the screen format and appearance of Views through a view hierarchy?`,
+ opts:[["A",`Layout`],["B",`Fragment`],["C",`Manifest`],["D",`Intent`]], ans:"A",
+ explanation:`Layouts are view hierarchies that control the screen format and appearance of the Views.`},
+
+{id:"m4-12", type:"single", topic:"Android Resources", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`In which directory are all app resources such as bitmaps, layouts, and strings organized?`,
+ opts:[["A",`src/`],["B",`res/`],["C",`assets/`],["D",`gen/`]], ans:"B",
+ explanation:`Resources are always maintained separately in various sub-directories under the res/ directory of the project.`},
+
+{id:"m4-13", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which resource directory is preferred specifically for property animations, to distinguish them from tween animations?`,
+ opts:[["A",`anim/`],["B",`animator/`],["C",`color/`],["D",`drawable/`]], ans:"B",
+ explanation:`Although property animations can also be saved in anim/, the animator/ directory is preferred for property animations to distinguish between the two animation types.`},
+
+{id:"m4-14", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which resource directory holds XML files that define a state list of colors, accessed from the R.color class?`,
+ opts:[["A",`color/`],["B",`values/`],["C",`drawable/`],["D",`style/`]], ans:"A",
+ explanation:`The color/ directory holds XML files that define a state list of colors, accessed from the R.color class.`},
+
+{id:"m4-15", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Bitmap files such as PNG, JPG, and GIF, along with XML files compiled into shapes or state lists, belong in which resource directory?`,
+ opts:[["A",`layout/`],["B",`drawable/`],["C",`menu/`],["D",`raw/`]], ans:"B",
+ explanation:`The drawable/ directory holds image files like PNG, JPG, or GIF, or XML files compiled into bitmaps, state lists, shapes, or animation drawables, accessed from the R.drawable class.`},
+
+{id:"m4-16", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which resource directory contains XML files that define an application's Options Menu, Context Menu, or Sub Menu?`,
+ opts:[["A",`layout/`],["B",`values/`],["C",`menu/`],["D",`xml/`]], ans:"C",
+ explanation:`The menu/ directory holds XML files that define application menus, such as an Options Menu, Context Menu, or Sub Menu, accessed from the R.menu class.`},
+
+{id:"m4-17", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`A developer needs to preserve the original filenames and folder hierarchy of some bundled files, which won't need resource IDs. Where should these files be placed instead of res/raw/?`,
+ opts:[["A",`res/values/`],["B",`assets/`],["C",`res/xml/`],["D",`res/font/`]], ans:"B",
+ explanation:`Files in assets/ aren't given a resource ID and preserve original filenames and hierarchy, and are read using AssetManager, unlike res/raw/ files which are opened via Resources.openRawResource().`},
+
+{id:"m4-18", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which element inside a values/ XML file's <resources> tag would create an R.string resource?`,
+ opts:[["A",`<color>`],["B",`<string>`],["C",`<dimen>`],["D",`<style>`]], ans:"B",
+ explanation:`A <string> element creates an R.string resource, just as a <color> element creates an R.color resource.`},
+
+{id:"m4-19", type:"single", topic:"Android Resources", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which filename convention is suggested for storing dimension values in the values/ directory?`,
+ opts:[["A",`dimens.xml`],["B",`sizes.xml`],["C",`measurements.xml`],["D",`layoutvalues.xml`]], ans:"A",
+ explanation:`The module lists dimens.xml as the filename convention for storing Dimension values in the values/ directory.`},
+
+{id:"m4-20", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which resource directory holds arbitrary XML files that are read at runtime by calling Resources.getXML(), such as a search configuration file?`,
+ opts:[["A",`values/`],["B",`xml/`],["C",`raw/`],["D",`menu/`]], ans:"B",
+ explanation:`The xml/ directory contains arbitrary XML files that can be read at runtime by calling Resources.getXML(), such as a Search configuration file.`},
+
+{id:"m4-21", type:"single", topic:"Android Resources", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which resource directory holds font files such as TTF, OTF, or TTC, or XML files with a <font-family> element?`,
+ opts:[["A",`values/`],["B",`font/`],["C",`raw/`],["D",`drawable/`]], ans:"B",
+ explanation:`The font/ directory holds font files with extensions such as TTF, OTF, or TTC, or XML files that include a <font-family> element.`},
+
+{id:"m4-22", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`When an Android application is compiled, which auto-generated class contains resource IDs for everything in the res/ directory?`,
+ opts:[["A",`Manifest`],["B",`BuildConfig`],["C",`R`],["D",`Resources`]], ans:"C",
+ explanation:`When the app is compiled, a R class gets generated, containing resource IDs for all the resources available in the res/ directory.`},
+
+{id:"m4-23", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Given the image file res/drawable/myimage.png, which resource reference would be used in code to set it on an ImageView?`,
+ opts:[["A",`R.layout.myimage`],["B",`R.drawable.myimage`],["C",`R.raw.myimage`],["D",`R.id.myimage`]], ans:"B",
+ explanation:`The module's example accesses res/drawable/myimage.png through the R.drawable class to set it on an ImageView.`},
+
+{id:"m4-24", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`In an XML layout file, which prefix is used to reference a string resource, as in @___/greeting?`,
+ opts:[["A",`@string`],["B",`@res`],["C",`@value`],["D",`@text`]], ans:"A",
+ explanation:`String resources are referenced in XML using the @string prefix, matching the R.string class used in code.`},
+
+{id:"m4-25", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`In an XML layout file, which reference prefix would be used to set a View's text color from a color resource, as in @___/accent?`,
+ opts:[["A",`@drawable`],["B",`@color`],["C",`@layout`],["D",`@style`]], ans:"B",
+ explanation:`Color resources are referenced in XML using the @color prefix, matching the R.color class used in code.`},
+
+// ---- Code fill-in-the-blank ----
+{id:"m4-cb-1", type:"code_blank", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Fill in the blank so this Kotlin code correctly sets res/drawable/myimage.png on an ImageView.`,
+ code:`val myImageView: ImageView = findViewById(R.id.imageView)
+myImageView.setImageResource(R.drawable.__BLANK_1__)`,
+ blanks:[{id:1, answer:"myimage"}],
+ explanation:`The drawable resource myimage.png is accessed in code as R.drawable.myimage.`},
+
+{id:"m4-cb-2", type:"code_blank", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Fill in the blank to complete the raw-resource access pattern shown in the module.`,
+ code:`val inputStream = resources.openRawResource(R.raw.__BLANK_1__)`,
+ blanks:[{id:1, answer:"filename"}],
+ explanation:`The module shows the raw resource access pattern as calling Resources.openRawResource() with the resource ID R.raw.filename.`},
+
+{id:"m4-cb-3", type:"code_blank", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Fill in the blank to correctly access the string resource defined below from code.`,
+ code:`<resources>
+    <string name="greeting">Hello Android</string>
+</resources>
+
+// Accessed in code as:
+val text = resources.getString(R.__BLANK_1__.greeting)`,
+ blanks:[{id:1, answer:"string"}],
+ explanation:`A <string> element in values/ XML creates an R.string resource, so it is accessed in code as R.string.greeting.`}
+
+  ]
+},
+
+"comprehensive": {
+  title: "Comprehensive Quiz — Modules 1-4",
+  questions: [
+
+{id:"comp-1", type:"single", topic:"Android History", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Before Google's involvement, which company originally developed Android?`,
+ opts:[["A",`Google`],["B",`Android Inc.`],["C",`JetBrains`],["D",`Samsung`]], ans:"B",
+ explanation:`Android was originally developed by Android Inc., which Google purchased in 2005.`},
+
+{id:"comp-2", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Support for ART (Android RunTime) was introduced with which Android version?`,
+ opts:[["A",`KitKat`],["B",`Lollipop`],["C",`Marshmallow`],["D",`Nougat`]], ans:"B",
+ explanation:`Android 5.0/5.1 (Lollipop) introduced support for ART (Android RunTime).`},
+
+{id:"comp-3", type:"single", topic:"Android Architecture", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`How many layers make up the Android software stack described in Module 1?`,
+ opts:[["A",`3`],["B",`4`],["C",`5`],["D",`6`]], ans:"C",
+ explanation:`The Android software stack has five layers: Applications, Android Framework, Android Runtime, Platform Libraries, and Linux Kernel.`},
+
+{id:"comp-4", type:"single", topic:"Setup & Requirements", difficulty:"Easy", source:"Module 2 — Android Studio",
+ stem:`Which two items are listed as prerequisites before installing Android Studio?`,
+ opts:[["A",`JDK and Android Studio`],["B",`Python and Node.js`],["C",`Xcode and JDK`],["D",`Git and Gradle only`]], ans:"A",
+ explanation:`The JDK and Android Studio itself are the listed prerequisites.`},
+
+{id:"comp-5", type:"single", topic:"Project Creation", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`What package name is used as an example in the new-project walkthrough?`,
+ opts:[["A",`com.android.myfirstapp`],["B",`com.example.myfirstapp`],["C",`com.google.myfirstapp`],["D",`com.myfirstapp.example`]], ans:"B",
+ explanation:`The walkthrough uses "com.example.myfirstapp" as the example package name.`},
+
+{id:"comp-6", type:"single", topic:"Running Apps", difficulty:"Medium", source:"Module 2 — Android Studio",
+ stem:`Which setting must be enabled on a physical device before it can be used to test an app from Android Studio?`,
+ opts:[["A",`Airplane Mode`],["B",`USB Debugging (via Developer options)`],["C",`Battery Saver`],["D",`Do Not Disturb`]], ans:"B",
+ explanation:`Testing on a real device requires USB Debugging to be enabled, which requires enabling Developer options first.`},
+
+{id:"comp-7", type:"single", topic:"Studio Interface", difficulty:"Easy", source:"Module 2 — Android Studio",
+ stem:`Which Android Studio interface element lets you run your app and launch Android tools?`,
+ opts:[["A",`Status bar`],["B",`Toolbar`],["C",`Tool window bar`],["D",`Navigation bar`]], ans:"B",
+ explanation:`The toolbar lets you carry out a wide range of actions, including running your app and launching Android tools.`},
+
+{id:"comp-8", type:"single", topic:"Kotlin Overview", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`In what year did JetBrains release Kotlin?`,
+ opts:[["A",`2011`],["B",`2014`],["C",`2016`],["D",`2019`]], ans:"C",
+ explanation:`Kotlin was released by JetBrains in 2016.`},
+
+{id:"comp-9", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which keyword creates an immutable variable reference in Kotlin, and which creates a mutable one?`,
+ opts:[["A",`val is immutable, var is mutable`],["B",`var is immutable, val is mutable`],["C",`Both are mutable`],["D",`Both are immutable`]], ans:"A",
+ explanation:`val creates an immutable reference; var creates a mutable one.`},
+
+{id:"comp-10", type:"single", topic:"Kotlin Fundamentals", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which Kotlin construct works like a switch statement, matching a value against multiple branches?`,
+ opts:[["A",`if-else expression`],["B",`when expression`],["C",`while loop`],["D",`init block`]], ans:"B",
+ explanation:`The when expression evaluates a value against multiple possible matches, similar to a switch statement.`},
+
+{id:"comp-11", type:"single", topic:"Kotlin vs Java", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which feature does the comparison table show as available in Kotlin but not in Java?`,
+ opts:[["A",`Static members`],["B",`Wildcard types`],["C",`Null safety`],["D",`Checked exceptions`]], ans:"C",
+ explanation:`The Kotlin vs Java table lists null safety as available in Kotlin and not available in Java.`},
+
+{id:"comp-12", type:"single", topic:"Java-to-Kotlin Conversion", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which Android Studio shortcut converts an open Java file directly to a Kotlin file?`,
+ opts:[["A",`Ctrl+Alt+Shift+K`],["B",`Ctrl+Shift+J`],["C",`Alt+Enter`],["D",`Ctrl+Alt+L`]], ans:"A",
+ explanation:`Ctrl+Alt+Shift+K is the shortcut for "Convert Java File to Kotlin File."`},
+
+{id:"comp-13", type:"single", topic:"Application Components", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which file describes how an Android app's components interact, loosely coupling them together?`,
+ opts:[["A",`build.gradle`],["B",`AndroidManifest.xml`],["C",`settings.gradle`],["D",`proguard-rules.pro`]], ans:"B",
+ explanation:`AndroidManifest.xml loosely couples the app's components and describes how they interact.`},
+
+{id:"comp-14", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which component runs in the background to perform long-running operations, such as playing music while a user is in another app?`,
+ opts:[["A",`Activity`],["B",`Service`],["C",`Fragment`],["D",`Layout`]], ans:"B",
+ explanation:`A Service runs in the background to perform long-running operations without blocking the user's interaction with an activity.`},
+
+{id:"comp-15", type:"single", topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`A broadcast message delivered to a Broadcast Receiver is packaged as what kind of object?`,
+ opts:[["A",`Bundle`],["B",`Intent`],["C",`ContentValues`],["D",`Cursor`]], ans:"B",
+ explanation:`Each broadcast message is broadcast as an Intent object.`},
+
+{id:"comp-16", type:"single", topic:"Additional Components", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`Which additional component represents just a portion of the user interface inside an Activity?`,
+ opts:[["A",`Fragment`],["B",`Manifest`],["C",`Intent`],["D",`Resource`]], ans:"A",
+ explanation:`A Fragment represents a portion of the user interface within an Activity.`},
+
+{id:"comp-17", type:"single", topic:"Android Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which resource directory is preferred specifically for property animations, to distinguish them from tween animations?`,
+ opts:[["A",`anim/`],["B",`animator/`],["C",`color/`],["D",`drawable/`]], ans:"B",
+ explanation:`The animator/ directory is preferred for property animations, distinguishing them from tween animations saved in anim/.`},
+
+{id:"comp-18", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which auto-generated class contains resource IDs for everything in the res/ directory once an app is compiled?`,
+ opts:[["A",`Manifest`],["B",`BuildConfig`],["C",`R`],["D",`Resources`]], ans:"C",
+ explanation:`Compiling the app generates the R class, which contains resource IDs for everything in res/.`},
+
+{id:"comp-19", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which XML reference prefix is used to point a layout attribute at a string resource?`,
+ opts:[["A",`@string`],["B",`@res`],["C",`@value`],["D",`@text`]], ans:"A",
+ explanation:`String resources are referenced in XML layouts using the @string prefix.`},
+
+{id:"comp-20", type:"multi", n:2, topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`Which two of the following are core Android "Application Components" (as opposed to "Additional Components")? (Choose two.)`,
+ opts:[["A",`Activity`],["B",`Fragment`],["C",`Service`],["D",`Layout`]], ans:["A","C"],
+ explanation:`The module's core Application Components are Activities, Services, Broadcast Receivers, and Content Providers. Fragments and Layouts are listed separately as "Additional Components."`}
+
+  ]
+}
+
+};
+
+/* =========================================================================
+   QUESTION-DATA VALIDATION
+========================================================================= */
+const REQUIRED_META = ['topic','difficulty','source','explanation'];
+
+function validateSet(setId, setObj){
+  const errors = [];
+  const seenIds = new Set();
+  const seenStems = new Map();
+  const validQuestions = [];
+  (setObj && Array.isArray(setObj.questions) ? setObj.questions : []).forEach((q, idx)=>{
+    const tag = `[${setId} #${idx+1}${q && q.id ? ' ('+q.id+')' : ''}]`;
+    if(!q || typeof q !== 'object'){ errors.push(`${tag} not a valid object — skipped.`); return; }
+    if(!q.id){ errors.push(`${tag} missing id — skipped.`); return; }
+    if(seenIds.has(q.id)){ errors.push(`${tag} duplicate id "${q.id}" — skipped.`); return; }
+    if(!['single','multi','code_blank'].includes(q.type)){ errors.push(`${tag} invalid type "${q.type}" — skipped.`); return; }
+    if(!q.stem){ errors.push(`${tag} missing stem — skipped.`); return; }
+
+    REQUIRED_META.forEach(k=>{ if(!q[k]) errors.push(`${tag} missing ${k}.`); });
+
+    const stemKey = q.stem.replace(/\s+/g,' ').trim().toLowerCase();
+    if(seenStems.has(stemKey)){
+      errors.push(`${tag} duplicate stem, also in ${seenStems.get(stemKey)} — skipped.`);
+      return;
+    }
+    seenStems.set(stemKey, q.id);
+
+    if(q.type === 'single' || q.type === 'multi'){
+      if(!Array.isArray(q.opts) || q.opts.length < 2){ errors.push(`${tag} needs at least 2 opts — skipped.`); return; }
+      const keys = q.opts.map(o=>o[0]);
+      if(new Set(keys).size !== keys.length){ errors.push(`${tag} duplicate option keys — skipped.`); return; }
+      if(q.type === 'single'){
+        if(!keys.includes(q.ans)){ errors.push(`${tag} ans "${q.ans}" not among option keys — skipped.`); return; }
+      } else {
+        if(!Array.isArray(q.ans) || !q.ans.length){ errors.push(`${tag} multi ans must be a non-empty array — skipped.`); return; }
+        const missingAns = q.ans.filter(a=>!keys.includes(a));
+        if(missingAns.length){ errors.push(`${tag} multi ans ${missingAns.join(',')} not among option keys — skipped.`); return; }
+        if(new Set(q.ans).size !== q.ans.length){ errors.push(`${tag} multi ans has duplicates — skipped.`); return; }
+        if(q.n != null && q.n !== q.ans.length){ errors.push(`${tag} n (${q.n}) does not match the ${q.ans.length} correct answers — skipped.`); return; }
+      }
+    }
+
+    if(q.type === 'code_blank'){
+      if(!q.code || typeof q.code !== 'string'){ errors.push(`${tag} missing code — skipped.`); return; }
+      if(!Array.isArray(q.blanks) || q.blanks.length < 1){ errors.push(`${tag} needs at least 1 blank — skipped.`); return; }
+      const placeholderIds = [...q.code.matchAll(/__BLANK_(\d+)__/g)].map(m=>Number(m[1]));
+      const blankIds = q.blanks.map(b=>b.id);
+      const missing = blankIds.filter(id=>!placeholderIds.includes(id));
+      const extra = placeholderIds.filter(id=>!blankIds.includes(id));
+      if(missing.length){ errors.push(`${tag} blanks ${missing.join(',')} have no matching __BLANK_n__ in code — skipped.`); return; }
+      if(extra.length){ errors.push(`${tag} code has __BLANK_n__ placeholders ${extra.join(',')} with no matching blank def — skipped.`); return; }
+      if(new Set(blankIds).size !== blankIds.length){ errors.push(`${tag} duplicate blank ids — skipped.`); return; }
+      const badBlank = q.blanks.find(b=> b.id==null || !b.answer);
+      if(badBlank){ errors.push(`${tag} a blank is missing id or answer — skipped.`); return; }
+    }
+
+    seenIds.add(q.id);
+    validQuestions.push(q);
+  });
+  return {errors, validQuestions};
+}
+
+function validateAllSets(){
+  const all = [];
+  const globalIds = new Set();
+  Object.keys(QUESTION_SETS).forEach(setId=>{
+    const {errors, validQuestions} = validateSet(setId, QUESTION_SETS[setId]);
+    errors.forEach(e=>all.push(e));
+    validQuestions.forEach(q=>{
+      if(globalIds.has(q.id)) all.push(`[global] id "${q.id}" is reused across sets.`);
+      globalIds.add(q.id);
+    });
+  });
+  return all;
+}
+
+/* =========================================================================
+   APP STATE & PERSISTENCE
+   Prefixed mp_ (Mobile Programming) so progress never collides with any
+   other reviewer's own localStorage data.
+========================================================================= */
+const LS_HISTORY = 'mp_history_v1';
+const LS_SETTINGS = 'mp_settings_v1';
+const LS_LAST = 'mp_last_v1';
+function lsGet(key, fallback){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
+function lsSet(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+
+let settings = lsGet(LS_SETTINGS, {shuffleQ:false, shuffleO:false});
+if(typeof settings !== 'object' || settings === null) settings = {shuffleQ:false, shuffleO:false};
+
+const lastState = lsGet(LS_LAST, null);
+let activeSetId = (lastState && QUESTION_SETS[lastState.setId]) ? lastState.setId : Object.keys(QUESTION_SETS)[0];
+let activeMode = (lastState && ['study','practice','exam'].includes(lastState.mode)) ? lastState.mode : 'study';
+
+let allQuestions = [];
+let order = [];
+let current = 0;
+let answers = {};
+let bookmarks = new Set();
+let finished = false;
+let optionOrderMap = {};
+let reviewFilter = 'incorrect';
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function sessionKey(setId, mode){ return `mp_session_v1_${setId}_${mode}`; }
+function bookmarkKey(setId){ return `mp_bookmarks_v1_${setId}`; }
+
+function saveSession(){
+  lsSet(sessionKey(activeSetId, activeMode), {order, current, answers, finished});
+  lsSet(LS_LAST, {setId: activeSetId, mode: activeMode});
+}
+function loadSession(){ return lsGet(sessionKey(activeSetId, activeMode), null); }
+function saveBookmarks(){ lsSet(bookmarkKey(activeSetId), Array.from(bookmarks)); }
+function loadBookmarks(){ bookmarks = new Set(lsGet(bookmarkKey(activeSetId), [])); }
+function pushHistory(entry){
+  const hist = lsGet(LS_HISTORY, []);
+  hist.unshift(entry);
+  lsSet(LS_HISTORY, hist.slice(0, 100));
+}
+
+/* =========================================================================
+   DOM REFS
+========================================================================= */
+const els = {};
+['setSelect','shuffleQToggle','shuffleOToggle','attemptedText','correctText','bookmarkedText',
+ 'progressBarInner','navGrid','validationBanner','setTitle','qCounter','qTypeTag','qDiffTag','qTopicTag',
+ 'bookmarkBtn','qStem','qBody','submitBtn','tryAgainBtn','finishBtn','feedbackBox','solutionBox','prevBtn','nextBtn',
+ 'quizScreen','resultsScreen','reviewScreen','historyScreen','scoreBig','scoreSub','scoreWarn','topicBreakdown','resultsGrid',
+ 'retryIncorrectBtn','backToQuizBtn','retakeBtn','reviewList','historyList','resetSideBtn','reviewSideBtn','historySideBtn',
+ 'closeReviewBtn','closeHistoryBtn'
+].forEach(id=> els[id] = document.getElementById(id));
+
+/* =========================================================================
+   SET / MODE / SETTINGS UI INIT
+========================================================================= */
+function populateSetSelect(){
+  els.setSelect.textContent = '';
+  Object.keys(QUESTION_SETS).forEach(id=>{
+    const o = document.createElement('option');
+    o.value = id; o.textContent = QUESTION_SETS[id].title;
+    els.setSelect.appendChild(o);
+  });
+  els.setSelect.value = activeSetId;
+}
+populateSetSelect();
+els.setSelect.onchange = ()=>{ loadSet(els.setSelect.value); };
+
+document.querySelectorAll('.modeTab').forEach(tab=>{
+  tab.onclick = ()=>{ switchMode(tab.dataset.mode); };
+});
+function refreshModeTabs(){
+  document.querySelectorAll('.modeTab').forEach(tab=>{
+    tab.classList.toggle('active', tab.dataset.mode === activeMode);
+  });
+}
+
+els.shuffleQToggle.checked = !!settings.shuffleQ;
+els.shuffleOToggle.checked = !!settings.shuffleO;
+els.shuffleQToggle.onchange = ()=>{
+  settings.shuffleQ = els.shuffleQToggle.checked;
+  lsSet(LS_SETTINGS, settings);
+  startFreshSession(); showScreen('quiz'); render();
+};
+els.shuffleOToggle.onchange = ()=>{
+  settings.shuffleO = els.shuffleOToggle.checked;
+  lsSet(LS_SETTINGS, settings);
+  optionOrderMap = {};
+  render();
+};
+
+/* =========================================================================
+   LOAD / SWITCH
+   Progress, answers, bookmarks, and results are all keyed by setId (and
+   setId+mode for session state), so switching sets or modes never mixes
+   Module 1, Module 2, Module 3, Module 4, or Comprehensive data.
+========================================================================= */
+function showValidationReport(){
+  const errors = validateAllSets();
+  if(errors.length){
+    els.validationBanner.style.display = 'block';
+    els.validationBanner.textContent = 'Question data warnings:\n' + errors.map(e=>'• ' + e).join('\n');
+  } else {
+    els.validationBanner.style.display = 'none';
+    els.validationBanner.textContent = '';
+  }
+}
+
+function loadSet(setId){
+  activeSetId = setId;
+  const {validQuestions} = validateSet(setId, QUESTION_SETS[setId]);
+  allQuestions = validQuestions;
+  els.setTitle.textContent = QUESTION_SETS[setId].title;
+  els.setSelect.value = setId;
+  loadBookmarks();
+  refreshModeTabs();
+  restoreOrStartSession();
+  showScreen('quiz');
+}
+
+function switchMode(mode){
+  activeMode = mode;
+  refreshModeTabs();
+  restoreOrStartSession();
+  showScreen('quiz');
+}
+
+function validOrder(o){
+  return Array.isArray(o) && o.length > 0 &&
+    o.every(i=> Number.isInteger(i) && i >= 0 && i < allQuestions.length) &&
+    new Set(o).size === o.length;
+}
+
+function restoreOrStartSession(){
+  const saved = loadSession();
+  optionOrderMap = {};
+  if(saved && validOrder(saved.order)){
+    order = saved.order;
+    current = Math.min(Math.max(saved.current || 0, 0), order.length-1);
+    answers = (saved.answers && typeof saved.answers === 'object') ? saved.answers : {};
+    finished = !!saved.finished;
+    const liveIds = new Set(allQuestions.map(q=>q.id));
+    Object.keys(answers).forEach(k=>{ if(!liveIds.has(k)) delete answers[k]; });
+  } else {
+    startFreshSession();
+  }
+  render();
+}
+
+function startFreshSession(){
+  let idxs = allQuestions.map((_,i)=>i);
+  if(settings.shuffleQ) idxs = shuffle(idxs);
+  order = idxs;
+  current = 0;
+  answers = {};
+  finished = false;
+  optionOrderMap = {};
+  saveSession();
+}
+
+/* =========================================================================
+   HELPERS
+========================================================================= */
+function currentQ(){ return allQuestions[order[current]]; }
+function getOpts(q){
+  if(q.type !== 'single' && q.type !== 'multi') return null;
+  if(!settings.shuffleO) return q.opts;
+  if(!optionOrderMap[q.id]) optionOrderMap[q.id] = shuffle(q.opts);
+  return optionOrderMap[q.id];
+}
+function hasSelection(q){
+  const a = answers[q.id];
+  if(!a) return false;
+  if(q.type === 'single') return !!a.selected;
+  if(q.type === 'multi') return Array.isArray(a.selected) && a.selected.length > 0;
+  if(q.type === 'code_blank') return a.selected && Object.values(a.selected).some(v=> typeof v === 'string' && v.trim());
+  return false;
+}
+function isAttempted(q){
+  const a = answers[q.id];
+  if(!a) return false;
+  if(q.type === 'single') return !!a.selected;
+  if(q.type === 'multi') return Array.isArray(a.selected) && a.selected.length > 0;
+  if(q.type === 'code_blank') return a.selected && q.blanks.every(b=> typeof a.selected[b.id] === 'string' && a.selected[b.id].trim());
+  return false;
+}
+function normalizeForGrade(text, caseSensitive){
+  const t = String(text == null ? '' : text).trim().replace(/\s+/g,' ');
+  return caseSensitive === false ? t.toLowerCase() : t;
+}
+function gradeQuestion(q, selected){
+  if(q.type === 'single'){
+    return {correct: selected === q.ans, perBlank:null, blanksCorrect:0, blanksTotal:0};
+  }
+  if(q.type === 'multi'){
+    const sel = Array.isArray(selected) ? selected.slice().sort() : [];
+    const ans = q.ans.slice().sort();
+    return {correct: sel.length === ans.length && sel.every((v,i)=>v===ans[i]), perBlank:null, blanksCorrect:0, blanksTotal:0};
+  }
+  if(q.type === 'code_blank'){
+    let allOk = true, okCount = 0;
+    const perBlank = {};
+    q.blanks.forEach(b=>{
+      const cs = b.caseSensitive !== false;
+      const norm = normalizeForGrade((selected && selected[b.id]) || '', cs);
+      const candidates = [b.answer, ...(b.accepted||[])].map(a=> normalizeForGrade(a, cs));
+      const ok = norm.length > 0 && candidates.includes(norm);
+      perBlank[b.id] = ok;
+      if(ok) okCount++; else allOk = false;
+    });
+    return {correct: allOk, perBlank, blanksCorrect: okCount, blanksTotal: q.blanks.length};
+  }
+  return {correct:false, perBlank:null, blanksCorrect:0, blanksTotal:0};
+}
+function solvedCode(q){
+  return q.code.replace(/__BLANK_(\d+)__/g, (m, id)=>{
+    const b = q.blanks.find(x=>String(x.id) === String(id));
+    return b ? b.answer : m;
+  });
+}
+
+/* =========================================================================
+   RENDER
+========================================================================= */
+function showScreen(name){
+  els.quizScreen.style.display = name==='quiz' ? 'block':'none';
+  els.resultsScreen.style.display = name==='results' ? 'block':'none';
+  els.reviewScreen.style.display = name==='review' ? 'block':'none';
+  els.historyScreen.style.display = name==='history' ? 'block':'none';
+}
+
+function render(){
+  els.qBody.textContent = '';
+  els.feedbackBox.className = '';
+  els.feedbackBox.textContent = '';
+  els.solutionBox.textContent = '';
+
+  const q = currentQ();
+  if(!q){
+    els.qStem.textContent = 'No questions available in this set.';
+    els.qCounter.textContent = 'Question 0 / 0';
+    els.submitBtn.style.display = 'none';
+    els.tryAgainBtn.style.display = 'none';
+    els.finishBtn.style.display = 'none';
+    els.prevBtn.disabled = true; els.nextBtn.disabled = true;
+    updateSidebar();
+    return;
+  }
+  els.nextBtn.disabled = false;
+
+  els.qCounter.textContent = `Question ${current+1} / ${order.length}`;
+  els.qTypeTag.textContent = q.type === 'code_blank' ? 'FILL IN THE CODE' : (q.type === 'multi' ? `MULTI-SELECT (choose ${q.n})` : 'MULTIPLE CHOICE');
+  els.qDiffTag.textContent = q.difficulty;
+  els.qDiffTag.className = 'tag difficulty-' + q.difficulty;
+  els.qTopicTag.textContent = q.topic;
+
+  const isBm = bookmarks.has(q.id);
+  els.bookmarkBtn.textContent = isBm ? '★ Bookmarked' : '☆ Bookmark';
+  els.bookmarkBtn.classList.toggle('on', isBm);
+
+  const rec = answers[q.id] || {};
+  const isLocked = (activeMode !== 'exam' && !!rec.submitted) || (activeMode === 'exam' && finished);
+
+  els.qStem.textContent = q.stem;
+  if(q.code && q.type !== 'code_blank'){
+    const pre = document.createElement('pre');
+    pre.className = 'code';
+    pre.textContent = q.code;
+    els.qBody.appendChild(pre);
+  }
+
+  if(q.type === 'code_blank') renderCodeBlank(q, isLocked);
+  else renderChoices(q, rec, isLocked);
+
+  if(activeMode === 'exam'){
+    els.submitBtn.style.display = 'none';
+    els.tryAgainBtn.style.display = 'none';
+    els.finishBtn.style.display = finished ? 'none' : 'inline-block';
+  } else {
+    els.tryAgainBtn.style.display = (rec.submitted && rec.correct === false && activeMode === 'practice') ? 'inline-block' : 'none';
+    els.submitBtn.style.display = isLocked ? 'none' : 'inline-block';
+    els.submitBtn.disabled = !hasSelection(q);
+    els.finishBtn.style.display = 'inline-block';
+  }
+
+  if(isLocked && rec.submitted){
+    const grade = gradeQuestion(q, rec.selected);
+    els.feedbackBox.className = grade.correct ? 'ok' : 'bad';
+    els.feedbackBox.appendChild(document.createTextNode(grade.correct ? '✔ Correct!' : '✘ Not quite.'));
+    if(q.type === 'code_blank' && grade.blanksTotal > 1){
+      const p = document.createElement('div');
+      p.className = 'partial';
+      p.textContent = `Partial progress: ${grade.blanksCorrect} of ${grade.blanksTotal} blanks correct.`;
+      els.feedbackBox.appendChild(p);
+    }
+    if(q.explanation){
+      const e = document.createElement('div');
+      e.className = 'expl';
+      e.textContent = q.explanation;
+      els.feedbackBox.appendChild(e);
+    }
+    if(q.type === 'code_blank'){
+      const lbl = document.createElement('div');
+      lbl.className = 'solutionLabel';
+      lbl.textContent = 'Completed code';
+      const pre = document.createElement('pre');
+      pre.className = 'code solution';
+      pre.textContent = solvedCode(q);
+      els.solutionBox.appendChild(lbl);
+      els.solutionBox.appendChild(pre);
+    }
+  }
+
+  els.prevBtn.disabled = current === 0;
+  els.nextBtn.textContent = current === order.length-1 ? 'Finish ▸' : 'Next ▸';
+  updateSidebar();
+  saveSession();
+}
+
+function renderChoices(q, rec, isLocked){
+  const multi = q.type === 'multi';
+  if(multi){
+    const hint = document.createElement('div');
+    hint.className = 'hint';
+    hint.textContent = `Select exactly ${q.n} choice${q.n===1?'':'s'}.`;
+    els.qBody.appendChild(hint);
+  }
+  const opts = getOpts(q);
+  const wrap = document.createElement('div'); wrap.className = 'choiceList';
+  opts.forEach(([k,v], idx)=>{
+    const div = document.createElement('label');
+    div.className = 'choice' + (isLocked ? ' locked' : '');
+
+    const input = document.createElement('input');
+    input.type = multi ? 'checkbox' : 'radio';
+    input.name = 'choice_' + q.id;
+    input.disabled = isLocked;
+    if(multi) input.checked = Array.isArray(rec.selected) && rec.selected.includes(k);
+    else input.checked = rec.selected === k;
+
+    const letter = document.createElement('span');
+    letter.className = 'letter';
+    letter.textContent = String.fromCharCode(65+idx);
+
+    const txt = document.createElement('span');
+    txt.className = 'txt';
+    txt.textContent = v;
+
+    div.appendChild(input); div.appendChild(letter); div.appendChild(txt);
+
+    if(!isLocked && (multi ? input.checked : rec.selected === k)) div.classList.add('selected');
+
+    input.onchange = ()=>{
+      const r = answers[q.id] = answers[q.id] || {};
+      if(multi){
+        let set = new Set(Array.isArray(r.selected) ? r.selected : []);
+        if(input.checked){
+          if(set.size >= q.n){
+            // enforce the exact required number of selections: drop the
+            // oldest pick before adding the new one
+            const arr = Array.from(set);
+            arr.shift();
+            set = new Set(arr);
+          }
+          set.add(k);
+        } else {
+          set.delete(k);
+        }
+        r.selected = Array.from(set);
+      } else {
+        r.selected = k;
+      }
+      if(activeMode === 'exam') r.submitted = false;
+      saveSession();
+      render();
+    };
+
+    if(isLocked){
+      const isCorrectKey = multi ? q.ans.includes(k) : k === q.ans;
+      const wasPicked = multi ? (Array.isArray(rec.selected) && rec.selected.includes(k)) : rec.selected === k;
+      if(isCorrectKey) div.classList.add('showCorrect');
+      else if(wasPicked) div.classList.add('showWrong');
+    }
+
+    wrap.appendChild(div);
+  });
+  els.qBody.appendChild(wrap);
+
+  if(multi){
+    const r = answers[q.id] || {};
+    const selCount = Array.isArray(r.selected) ? r.selected.length : 0;
+    if(!isLocked){
+      const counter = document.createElement('div');
+      counter.className = 'hint';
+      counter.textContent = `${selCount} of ${q.n} selected`;
+      els.qBody.appendChild(counter);
+    }
+  }
+}
+
+function renderCodeBlank(q, isLocked){
+  if(!answers[q.id]) answers[q.id] = {selected:{}};
+  if(!answers[q.id].selected || typeof answers[q.id].selected !== 'object') answers[q.id].selected = {};
+  const rec = answers[q.id];
+  const grade = isLocked ? gradeQuestion(q, rec.selected) : null;
+
+  const pre = document.createElement('pre'); pre.className = 'code';
+  const parts = q.code.split(/__BLANK_(\d+)__/g);
+  parts.forEach((part, i)=>{
+    if(i % 2 === 0){
+      pre.appendChild(document.createTextNode(part));
+    } else {
+      const blankId = Number(part);
+      const blankDef = q.blanks.find(b=>b.id===blankId);
+      if(isLocked){
+        const val = rec.selected[blankId] || '';
+        const ok = grade.perBlank ? !!grade.perBlank[blankId] : false;
+        const span = document.createElement('span');
+        span.className = 'blankResult ' + (ok ? 'ok' : 'bad');
+        span.textContent = val.trim() ? val : '(blank)';
+        pre.appendChild(span);
+        if(!ok && blankDef){
+          const hint = document.createElement('span');
+          hint.className = 'blankCorrectHint';
+          hint.textContent = '→ ' + blankDef.answer;
+          pre.appendChild(hint);
+        }
+      } else {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'blankInput';
+        input.autocomplete = 'off';
+        input.spellcheck = false;
+        input.value = rec.selected[blankId] || '';
+        input.setAttribute('aria-label', 'Blank ' + blankId);
+        input.size = Math.max(14, Math.min(40, (blankDef ? blankDef.answer.length : 16)));
+        input.oninput = ()=>{
+          rec.selected[blankId] = input.value;
+          saveSession();
+          refreshActionButtons();
+          updateSidebar();
+        };
+        pre.appendChild(input);
+      }
+    }
+  });
+  els.qBody.appendChild(pre);
+}
+
+function refreshActionButtons(){
+  const q = currentQ();
+  if(!q) return;
+  if(els.submitBtn.style.display !== 'none') els.submitBtn.disabled = !hasSelection(q);
+}
+
+function updateSidebar(){
+  const attempted = order.filter(i=> isAttempted(allQuestions[i]) ).length;
+  const correctCount = order.filter(i=>{
+    const rec = answers[allQuestions[i].id];
+    return rec && rec.submitted && rec.correct;
+  }).length;
+  els.attemptedText.textContent = `${attempted} / ${order.length}`;
+  els.correctText.textContent = String(correctCount);
+  els.bookmarkedText.textContent = String(bookmarks.size);
+  els.progressBarInner.style.width = (order.length ? attempted/order.length*100 : 0) + '%';
+
+  els.navGrid.textContent = '';
+  order.forEach((qi, pos)=>{
+    const q = allQuestions[qi];
+    const rec = answers[q.id];
+    const btn = document.createElement('div');
+    btn.className = 'navBtn';
+    btn.textContent = String(pos+1);
+    btn.title = q.topic;
+    if(rec && rec.submitted){
+      btn.classList.add(rec.correct ? 'correct' : 'incorrect');
+    } else if(hasSelection(q)){
+      btn.classList.add('picked');
+    }
+    if(pos === current) btn.classList.add('current');
+    if(bookmarks.has(q.id)){
+      const dot = document.createElement('div'); dot.className='bmDot'; btn.appendChild(dot);
+    }
+    btn.onclick = ()=>{ current = pos; render(); };
+    els.navGrid.appendChild(btn);
+  });
+}
+
+/* =========================================================================
+   ACTIONS
+========================================================================= */
+els.bookmarkBtn.onclick = ()=>{
+  const q = currentQ(); if(!q) return;
+  if(bookmarks.has(q.id)) bookmarks.delete(q.id); else bookmarks.add(q.id);
+  saveBookmarks();
+  render();
+};
+
+els.submitBtn.onclick = ()=>{
+  const q = currentQ(); if(!q || !hasSelection(q)) return;
+  if(q.type === 'multi'){
+    const r = answers[q.id] || {};
+    const selCount = Array.isArray(r.selected) ? r.selected.length : 0;
+    if(selCount !== q.n) return; // enforce exact required number of selections
+  }
+  const rec = answers[q.id] = answers[q.id] || {};
+  const result = gradeQuestion(q, rec.selected);
+  rec.submitted = true;
+  rec.correct = result.correct;
+  rec.attempts = (rec.attempts||0) + 1;
+  saveSession();
+  render();
+};
+
+els.tryAgainBtn.onclick = ()=>{
+  const q = currentQ(); if(!q) return;
+  const rec = answers[q.id] = answers[q.id] || {};
+  rec.submitted = false;
+  delete rec.correct;
+  if(q.type === 'code_blank') rec.selected = {};
+  else if(q.type === 'multi') rec.selected = [];
+  else rec.selected = null;
+  saveSession();
+  render();
+};
+
+els.prevBtn.onclick = ()=>{ if(current>0){ current--; render(); } };
+els.nextBtn.onclick = ()=>{
+  if(current < order.length-1){ current++; render(); }
+  else { finishRun(); }
+};
+els.finishBtn.onclick = finishRun;
+
+function computeTopicBreakdown(){
+  const byTopic = {};
+  order.forEach(qi=>{
+    const q = allQuestions[qi];
+    const rec = answers[q.id];
+    if(!byTopic[q.topic]) byTopic[q.topic] = {correct:0, total:0};
+    byTopic[q.topic].total++;
+    if(rec && rec.submitted && rec.correct) byTopic[q.topic].correct++;
+  });
+  return byTopic;
+}
+
+function finishRun(){
+  if(!order.length) return;
+  const unanswered = order.filter(i=> !isAttempted(allQuestions[i]) ).length;
+  if(unanswered > 0){
+    const msg = `${unanswered} question${unanswered===1?'':'s'} ${unanswered===1?'is':'are'} still unanswered. ` +
+                `Unanswered questions count as incorrect in the overall score. Finish anyway?`;
+    if(!window.confirm(msg)) return;
+  }
+
+  if(activeMode === 'exam'){
+    order.forEach(qi=>{
+      const q = allQuestions[qi];
+      const rec = answers[q.id] = answers[q.id] || {};
+      rec.correct = isAttempted(q) ? gradeQuestion(q, rec.selected).correct : false;
+      rec.submitted = true;
+    });
+  }
+  finished = true;
+  saveSession();
+
+  const attemptedCount = order.filter(i=>isAttempted(allQuestions[i])).length;
+  const correctCount = order.filter(i=>{
+    const rec = answers[allQuestions[i].id];
+    return rec && rec.submitted && rec.correct;
+  }).length;
+  const topicBreakdown = computeTopicBreakdown();
+
+  pushHistory({
+    setId: activeSetId,
+    setTitle: QUESTION_SETS[activeSetId].title,
+    mode: activeMode,
+    date: new Date().toISOString(),
+    total: order.length,
+    attempted: attemptedCount,
+    correct: correctCount,
+    topicBreakdown
+  });
+
+  showResults(attemptedCount, correctCount, topicBreakdown);
+}
+
+function showResults(attemptedCount, correctCount, topicBreakdown){
+  showScreen('results');
+  const overallPct = order.length>0 ? Math.round(correctCount/order.length*100) : 0;
+  const attemptedPct = attemptedCount>0 ? Math.round(correctCount/attemptedCount*100) : 0;
+  els.scoreBig.textContent = overallPct + '%';
+  els.scoreSub.textContent = `${correctCount} of ${order.length} correct overall  ·  ${attemptedPct}% accuracy on ${attemptedCount} attempted`;
+  const skipped = order.length - attemptedCount;
+  els.scoreWarn.textContent = skipped > 0
+    ? `⚠ ${skipped} question${skipped===1?'':'s'} left unanswered — counted as incorrect.`
+    : '';
+
+  els.topicBreakdown.textContent = '';
+  const h3 = document.createElement('h3'); h3.textContent = 'Topic Breakdown';
+  els.topicBreakdown.appendChild(h3);
+  Object.keys(topicBreakdown).forEach(topic=>{
+    const t = topicBreakdown[topic];
+    const pctT = t.total>0 ? Math.round(t.correct/t.total*100) : 0;
+    const row = document.createElement('div'); row.className = 'topicRow';
+    const name = document.createElement('div'); name.className = 'tname'; name.textContent = topic;
+    const bar = document.createElement('div'); bar.className = 'topicBar';
+    const fill = document.createElement('div'); fill.style.width = pctT + '%';
+    bar.appendChild(fill);
+    const score = document.createElement('div'); score.className = 'tscore'; score.textContent = `${t.correct}/${t.total}`;
+    row.appendChild(name); row.appendChild(bar); row.appendChild(score);
+    els.topicBreakdown.appendChild(row);
+  });
+
+  els.resultsGrid.textContent = '';
+  order.forEach((qi,pos)=>{
+    const q = allQuestions[qi];
+    const rec = answers[q.id];
+    let cls = 'unattempted';
+    if(rec && rec.submitted) cls = rec.correct ? 'correct' : 'incorrect';
+    const box = document.createElement('div');
+    box.className = 'rBox ' + cls;
+    box.textContent = String(pos+1);
+    box.onclick = ()=>{ jumpTo(pos); };
+    els.resultsGrid.appendChild(box);
+  });
+}
+
+function jumpTo(pos){
+  showScreen('quiz');
+  current = Math.min(Math.max(pos,0), Math.max(order.length-1,0));
+  render();
+}
+
+els.backToQuizBtn.onclick = ()=>{ jumpTo(current); };
+els.retakeBtn.onclick = ()=>{ startFreshSession(); showScreen('quiz'); render(); };
+els.retryIncorrectBtn.onclick = ()=>{
+  const incorrectIdx = order.filter(qi=>{
+    const rec = answers[allQuestions[qi].id];
+    return rec && rec.submitted && rec.correct === false;
+  });
+  if(!incorrectIdx.length){ jumpTo(0); return; }
+  order = incorrectIdx;
+  current = 0;
+  incorrectIdx.forEach(qi=>{
+    const q = allQuestions[qi];
+    answers[q.id] = {selected: q.type==='code_blank' ? {} : (q.type==='multi' ? [] : null)};
+  });
+  finished = false;
+  saveSession();
+  showScreen('quiz');
+  render();
+};
+
+els.resetSideBtn.onclick = ()=>{
+  if(!window.confirm('Reset all progress for this set and mode?')) return;
+  startFreshSession();
+  showScreen('quiz');
+  render();
+};
+
+/* ---- Review panel ---- */
+els.reviewSideBtn.onclick = ()=>{ renderReview(); showScreen('review'); };
+els.closeReviewBtn.onclick = ()=>{ showScreen('quiz'); render(); };
+document.querySelectorAll('.filterRow button').forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll('.filterRow button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    reviewFilter = btn.dataset.f;
+    renderReview();
+  };
+});
+function renderReview(){
+  els.reviewList.textContent = '';
+  let shown = 0;
+  order.forEach((qi,pos)=>{
+    const q = allQuestions[qi];
+    const rec = answers[q.id] || {};
+    const isBm = bookmarks.has(q.id);
+    let status = 'unattempted';
+    if(rec.submitted) status = rec.correct ? 'correct' : 'incorrect';
+
+    let include = false;
+    if(reviewFilter === 'all') include = true;
+    else if(reviewFilter === 'incorrect') include = status === 'incorrect';
+    else if(reviewFilter === 'unanswered') include = status === 'unattempted';
+    else if(reviewFilter === 'bookmarked') include = isBm;
+    if(!include) return;
+    shown++;
+
+    const item = document.createElement('div'); item.className = 'reviewItem';
+    const label = document.createElement('span');
+    const firstLine = q.stem.split('\n')[0];
+    label.textContent = `${isBm?'★ ':''}Q${pos+1} — ` + (firstLine.length > 90 ? firstLine.slice(0,90) + '…' : firstLine);
+    const stat = document.createElement('span');
+    stat.className = 'rstat ' + status;
+    stat.textContent = status.toUpperCase();
+    item.appendChild(label); item.appendChild(stat);
+    item.onclick = ()=>{ showScreen('quiz'); current = pos; render(); };
+    els.reviewList.appendChild(item);
+  });
+  if(!shown){
+    const empty = document.createElement('div');
+    empty.className = 'hint';
+    empty.textContent = 'No questions match this filter.';
+    els.reviewList.appendChild(empty);
+  }
+}
+
+/* ---- History panel ---- */
+els.historySideBtn.onclick = ()=>{ renderHistory(); showScreen('history'); };
+els.closeHistoryBtn.onclick = ()=>{ showScreen('quiz'); render(); };
+function renderHistory(){
+  const hist = lsGet(LS_HISTORY, []);
+  els.historyList.textContent = '';
+  if(!Array.isArray(hist) || !hist.length){
+    const empty = document.createElement('div');
+    empty.className = 'hint';
+    empty.textContent = 'No attempts recorded yet.';
+    els.historyList.appendChild(empty);
+    return;
+  }
+  hist.forEach(h=>{
+    const overall = h.total>0 ? Math.round(h.correct/h.total*100) : 0;
+    const acc = h.attempted>0 ? Math.round(h.correct/h.attempted*100) : 0;
+    const div = document.createElement('div'); div.className = 'historyItem';
+
+    const top = document.createElement('div'); top.className = 'hTop';
+    const left = document.createElement('span');
+    left.textContent = `${h.setTitle} — ${String(h.mode||'').toUpperCase()}`;
+    const right = document.createElement('span');
+    const d = new Date(h.date);
+    right.textContent = isNaN(d.getTime()) ? '' : d.toLocaleString();
+    top.appendChild(left); top.appendChild(right);
+
+    const body = document.createElement('div');
+    body.appendChild(document.createTextNode('Score: '));
+    const sc = document.createElement('span'); sc.className = 'hScore'; sc.textContent = overall + '%';
+    body.appendChild(sc);
+    body.appendChild(document.createTextNode(` (${h.correct}/${h.total} overall · ${acc}% of ${h.attempted} attempted)`));
+
+    div.appendChild(top); div.appendChild(body);
+    els.historyList.appendChild(div);
+  });
+}
+
+/* =========================================================================
+   KEYBOARD ACCESSIBILITY
+========================================================================= */
+document.addEventListener('keydown', (e)=>{
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+  const ae = document.activeElement;
+  const tag = ae && ae.tagName;
+  const inTextInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (ae && ae.isContentEditable);
+  if(els.quizScreen.style.display !== 'block') return;
+
+  if(e.key === 'Enter'){
+    if(inTextInput && tag !== 'BUTTON'){
+      if(!els.submitBtn.disabled && els.submitBtn.style.display !== 'none'){
+        if(ae && ae.blur) ae.blur();
+        els.submitBtn.click();
+        e.preventDefault();
+      }
+      return;
+    }
+    if(!els.submitBtn.disabled && els.submitBtn.style.display !== 'none'){ els.submitBtn.click(); e.preventDefault(); }
+    else { els.nextBtn.click(); e.preventDefault(); }
+    return;
+  }
+  if(inTextInput) return;
+
+  if(e.key === 'ArrowRight'){ els.nextBtn.click(); e.preventDefault(); }
+  else if(e.key === 'ArrowLeft'){ if(!els.prevBtn.disabled) els.prevBtn.click(); e.preventDefault(); }
+  else if(e.key.toLowerCase() === 'b'){ els.bookmarkBtn.click(); e.preventDefault(); }
+  else if(['1','2','3','4','5','6'].includes(e.key)){
+    const q = currentQ();
+    if(q && (q.type === 'single' || q.type === 'multi')){
+      const idx = Number(e.key)-1;
+      const inputs = els.qBody.querySelectorAll('.choice input');
+      if(inputs[idx] && !inputs[idx].disabled){ inputs[idx].click(); e.preventDefault(); }
+    }
+  }
+});
+
+/* =========================================================================
+   INIT
+========================================================================= */
+showValidationReport();
+refreshModeTabs();
+loadSet(activeSetId);
+</script>
+</body>
+</html>
