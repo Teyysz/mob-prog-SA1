@@ -35,6 +35,8 @@
   ::selection{background:var(--accent-dim);}
   button{font-family:var(--mono);}
 
+
+
   #sidebar{
     width:290px; flex:0 0 290px;
     background:var(--panel);
@@ -374,7 +376,8 @@
    Module 2  — Android Studio
    Module 3  — Introduction to Kotlin
    Module 4  — Application Components and Resources
-   Comprehensive Quiz — Mixed questions from Modules 1-4
+   Module 5  — Activities and Activity Lifecycle
+   Comprehensive Quiz — Mixed questions from Modules 1-5
 ========================================================================= */
 const QUESTION_SETS = {
 
@@ -460,7 +463,108 @@ const QUESTION_SETS = {
 {id:"m1-16", type:"single", topic:"Android Architecture", difficulty:"Medium", source:"Module 1 — Introduction to Android",
  stem:`According to the module, which component is responsible for running a mobile application within the Android architecture?`,
  opts:[["A",`Linux Kernel`],["B",`Dalvik Virtual Machine (DVM)`],["C",`Platform Libraries`],["D",`Application Framework`]], ans:"B",
- explanation:`The module states the Dalvik Virtual Machine (DVM) is responsible for running a mobile application, working alongside the Linux Kernel, which provides the OS functions.`}
+ explanation:`The module states the Dalvik Virtual Machine (DVM) is responsible for running a mobile application, working alongside the Linux Kernel, which provides the OS functions.`},
+
+// ---- Expanded Android-version and architecture review ----
+{id:"m1-17", type:"single", topic:"Android Versions", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version was designed primarily for tablets?`,
+ opts:[["A",`Android 2.2 (Froyo)`],["B",`Android 2.3 (Gingerbread)`],["C",`Android 3.x (Honeycomb)`],["D",`Android 4.4 (KitKat)`]], ans:"C",
+ explanation:`Android 3.x Honeycomb was the tablet-focused Android release and introduced a tablet-oriented 3D interface.`},
+
+{id:"m1-18", type:"single", topic:"Android Versions", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Which early Android releases were issued without official dessert codenames?`,
+ opts:[["A",`Android 1.0 and 1.1`],["B",`Android 1.5 and 1.6`],["C",`Android 2.0 and 2.1`],["D",`Android 3.0 and 3.1`]], ans:"A",
+ explanation:`Android 1.0 and 1.1 were the first commercial releases and had no official dessert codenames.`},
+
+{id:"m1-19", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`The first commercial Android version was installed on which device?`,
+ opts:[["A",`Nexus S`],["B",`HTC Dream`],["C",`Samsung Galaxy S`],["D",`Motorola Xoom`]], ans:"B",
+ explanation:`The module identifies the HTC Dream as the device that carried the first commercial Android version.`},
+
+{id:"m1-20", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which release added direct uploading of videos and photos to services such as YouTube and Picasa?`,
+ opts:[["A",`Cupcake`],["B",`Donut`],["C",`Eclair`],["D",`Froyo`]], ans:"A",
+ explanation:`Android 1.5 Cupcake added upload services for videos and photos, along with MPEG-4 video recording support.`},
+
+{id:"m1-21", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android release added support for larger screen sizes and improved the speed of system applications?`,
+ opts:[["A",`Cupcake`],["B",`Donut`],["C",`Eclair`],["D",`Gingerbread`]], ans:"B",
+ explanation:`Android 1.6 Donut introduced large-screen support and speed improvements for system applications.`},
+
+{id:"m1-22", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Live wallpapers and Bluetooth 2.1 support were introduced in which Android version family?`,
+ opts:[["A",`Android 1.6 Donut`],["B",`Android 2.0/2.1 Eclair`],["C",`Android 2.2 Froyo`],["D",`Android 2.3 Gingerbread`]], ans:"B",
+ explanation:`Eclair updated the interface and added live wallpapers and Bluetooth 2.1 support.`},
+
+{id:"m1-23", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version added Wi-Fi hotspot functionality and animated GIF support?`,
+ opts:[["A",`Eclair`],["B",`Froyo`],["C",`Gingerbread`],["D",`Honeycomb`]], ans:"B",
+ explanation:`Android 2.2 Froyo added Wi-Fi hotspot functionality, animated GIF support, and browser file uploads.`},
+
+{id:"m1-24", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version was officially announced with the Nexus S phone co-developed by Google and Samsung?`,
+ opts:[["A",`Froyo`],["B",`Gingerbread`],["C",`Honeycomb`],["D",`Ice Cream Sandwich`]], ans:"B",
+ explanation:`Android 2.3/2.4 Gingerbread was announced with the Nexus S, a phone co-developed by Google and Samsung.`},
+
+{id:"m1-25", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version brought features such as Wi-Fi Direct, Face Unlock, and improved spelling correction?`,
+ opts:[["A",`Honeycomb`],["B",`Ice Cream Sandwich`],["C",`Jelly Bean`],["D",`KitKat`]], ans:"B",
+ explanation:`Android 4.0 Ice Cream Sandwich added Wi-Fi Direct, Face Unlock, and improvements to text input and spelling.`},
+
+{id:"m1-26", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`“Google Now” was presented as the main feature of which Android version family?`,
+ opts:[["A",`Ice Cream Sandwich`],["B",`Jelly Bean`],["C",`KitKat`],["D",`Lollipop`]], ans:"B",
+ explanation:`The module identifies Google Now as the main feature of Android 4.1-4.3 Jelly Bean.`},
+
+{id:"m1-27", type:"single", topic:"Android Versions", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Which Android release introduced the hands-free “OK Google” command described in the module?`,
+ opts:[["A",`Jelly Bean`],["B",`KitKat`],["C",`Lollipop`],["D",`Marshmallow`]], ans:"B",
+ explanation:`Android 4.4 KitKat added the “OK Google” command for hands-free access to Google Now.`},
+
+{id:"m1-28", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version introduced adaptive brightness based on user habits and support for display cutouts?`,
+ opts:[["A",`Android 8 Oreo`],["B",`Android 9 Pie`],["C",`Android 10`],["D",`Android 11`]], ans:"B",
+ explanation:`Android 9 Pie added adaptive brightness, adaptive battery prediction, and display-cutout support.`},
+
+{id:"m1-29", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Native screen recording, notification history, and automatic permission revocation are features of:`,
+ opts:[["A",`Android 9`],["B",`Android 10`],["C",`Android 11`],["D",`Android 12`]], ans:"C",
+ explanation:`The Android 11 slide lists native screen recording, notification history, and auto-revoking app permissions.`},
+
+{id:"m1-30", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version added scrolling screenshots, easier Wi-Fi sharing, and one-handed mode?`,
+ opts:[["A",`Android 10`],["B",`Android 11`],["C",`Android 12`],["D",`Android 13`]], ans:"C",
+ explanation:`Android 12 added scrolling screenshots, easier Wi-Fi sharing, and one-handed mode among its listed features.`},
+
+{id:"m1-31", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Digital car keys, a new reading mode, and native Bluetooth LE support are associated with which release?`,
+ opts:[["A",`Android 11`],["B",`Android 12`],["C",`Android 13`],["D",`Android 14`]], ans:"C",
+ explanation:`The module lists those features under Android 13, internally known as Tiramisu.`},
+
+{id:"m1-32", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Notification flashes, protected PIN entry, and regional preferences were introduced in:`,
+ opts:[["A",`Android 12`],["B",`Android 13`],["C",`Android 14`],["D",`Android 15`]], ans:"C",
+ explanation:`These features appear on the Android 14 slide, whose internal codename is Upside Down Cake.`},
+
+{id:"m1-33", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version includes partial screen sharing, file integrity, and sensitive-notification protection?`,
+ opts:[["A",`Android 12`],["B",`Android 13`],["C",`Android 14`],["D",`Android 15`]], ans:"D",
+ explanation:`The Android 15 slide lists partial screen sharing, file integrity, and sensitive notifications.`},
+
+{id:"m1-34", type:"single", topic:"Android Architecture", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`In the Android architecture diagram, the Activity Manager belongs to which layer?`,
+ opts:[["A",`Applications`],["B",`Application Framework`],["C",`Android Runtime`],["D",`Linux Kernel`]], ans:"B",
+ explanation:`The architecture diagram places Activity Manager inside the Application Framework layer.`},
+
+{id:"m1-35", type:"single", topic:"Android Overview", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Which statement best explains who may use Android?`,
+ opts:[["A",`Only Google may use it`],["B",`Only phone manufacturers may use it`],["C",`It is open and free, so it is not limited to Google`],["D",`Only licensed universities may use it`]], ans:"C",
+ explanation:`The module describes Android OS as open and free; its use is not exclusive to Google.`},
+
+{id:"m1-36", type:"single", topic:"Android Architecture", difficulty:"Medium", source:"Requested Android architecture concept review",
+ stem:`Which Android framework service is used by an app to obtain information about network connectivity?`,
+ opts:[["A",`ActivityManager`],["B",`ConnectivityManager`],["C",`NotificationManager`],["D",`PackageManager`]], ans:"B",
+ explanation:`ConnectivityManager provides information about network connections and connectivity capabilities.`}
 
   ]
 },
@@ -527,7 +631,37 @@ const QUESTION_SETS = {
 {id:"m2-12", type:"single", topic:"Studio Interface", difficulty:"Medium", source:"Module 2 — Android Studio",
  stem:`Which interface element runs around the outside of the IDE window and contains buttons to expand or collapse individual tool windows?`,
  opts:[["A",`Tool window bar`],["B",`Navigation bar`],["C",`Toolbar`],["D",`Status bar`]], ans:"A",
- explanation:`The tool window bar runs around the outside of the IDE window and contains the buttons that allow you to expand or collapse individual tool windows.`}
+ explanation:`The tool window bar runs around the outside of the IDE window and contains the buttons that allow you to expand or collapse individual tool windows.`},
+
+{id:"m2-13", type:"single", topic:"Logcat", difficulty:"Medium", source:"Requested Android Studio concept review",
+ stem:`Which Logcat priority has the highest severity among the standard Android log priorities?`,
+ opts:[["A",`Debug`],["B",`Warning`],["C",`Error`],["D",`Assert`]], ans:"D",
+ explanation:`The standard Logcat priority order is Verbose, Debug, Info, Warn, Error, and Assert; Assert is the highest severity.`},
+
+{id:"m2-14", type:"single", topic:"Logcat", difficulty:"Easy", source:"Requested Android Studio concept review",
+ stem:`What is the main purpose of the Logcat window in Android Studio?`,
+ opts:[["A",`Design XML layouts`],["B",`Display device and application log messages`],["C",`Create emulator hardware profiles`],["D",`Download Gradle plugins`]], ans:"B",
+ explanation:`Logcat displays system and application messages that help developers monitor behavior and diagnose errors.`},
+
+{id:"m2-15", type:"single", topic:"Device Testing", difficulty:"Easy", source:"Requested Android Studio concept review",
+ stem:`What must normally be enabled before Android Studio can debug an app on a physical Android device through USB?`,
+ opts:[["A",`Airplane mode`],["B",`USB debugging`],["C",`Battery saver`],["D",`Screen casting`]], ans:"B",
+ explanation:`USB debugging allows Android Debug Bridge and Android Studio to communicate with the physical device.`},
+
+{id:"m2-16", type:"single", topic:"Device Testing", difficulty:"Medium", source:"Requested Android Studio concept review",
+ stem:`How are Developer options commonly unlocked on an Android device?`,
+ opts:[["A",`Tap the Build number repeatedly in About phone`],["B",`Hold the volume buttons while restarting`],["C",`Install Android Studio on the phone`],["D",`Enable airplane mode seven times`]], ans:"A",
+ explanation:`Developer options are commonly unlocked by repeatedly tapping Build number in the device's About phone or Software information screen.`},
+
+{id:"m2-17", type:"single", topic:"Device Testing", difficulty:"Easy", source:"Requested Android Studio concept review",
+ stem:`After Developer options are enabled, where is USB debugging normally turned on?`,
+ opts:[["A",`Developer options under the Debugging section`],["B",`Display settings under Brightness`],["C",`Apps settings under Default apps`],["D",`Security settings under Screen lock`]], ans:"A",
+ explanation:`USB debugging is a switch inside Developer options, typically grouped under Debugging.`},
+
+{id:"m2-18", type:"single", topic:"Gradle", difficulty:"Medium", source:"Requested Android Studio concept review",
+ stem:`What is Gradle primarily used for in an Android project?`,
+ opts:[["A",`Drawing interface elements`],["B",`Automating builds and managing project dependencies`],["C",`Replacing the Android operating system`],["D",`Displaying Logcat messages`]], ans:"B",
+ explanation:`Gradle configures and automates the build process and resolves the libraries and plugins required by the project.`}
 
   ]
 },
@@ -639,7 +773,56 @@ const QUESTION_SETS = {
 {id:"m3-21", type:"single", topic:"Java-to-Kotlin Conversion", difficulty:"Medium", source:"Module 3 — Introduction to Kotlin",
  stem:`A developer creates a brand-new Kotlin file inside the java folder of an existing Java project. What message does Android Studio show, and what should the developer do next?`,
  opts:[["A",`"Kotlin is not configured" — click configure and select "All modules" with the latest compiler`],["B",`"File type unsupported" — restart Android Studio`],["C",`"Kotlin already configured" — do nothing`],["D",`"Missing SDK" — reinstall Android Studio`]], ans:"A",
- explanation:`The module describes Method 2: creating a new Kotlin file triggers a "Kotlin is not configured" alert; clicking "configure" and selecting All modules with the latest compiler resolves it.`}
+ explanation:`The module describes Method 2: creating a new Kotlin file triggers a "Kotlin is not configured" alert; clicking "configure" and selecting All modules with the latest compiler resolves it.`},
+
+// ---- Added questionnaire items ----
+{id:"m3-user-1", type:"single", topic:"Kotlin Arrays", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`In Kotlin, array indexes start with:`,
+ opts:[["A",`0`],["B",`nil`],["C",`1`],["D",`-1`]], ans:"A",
+ explanation:`Kotlin arrays use zero-based indexing, so the first element is at index 0.`},
+
+{id:"m3-user-2", type:"code_blank", topic:"Kotlin Functions", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`Type the keyword used to declare a function in Kotlin.`,
+ code:`__BLANK_1__ myFunction() {
+    // function body
+}`,
+ blanks:[{id:1, answer:"fun"}],
+ explanation:`Kotlin functions are declared with the fun keyword.`},
+
+{id:"m3-user-3", type:"single", topic:"Kotlin OOP", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`What is the correct way to create an object called myObj of the class MyClass?`,
+ opts:[["A",`val myObj = MyClass()`],["B",`myObj : MyClass()`],["C",`myObj = new MyClass()`],["D",`MyClass.new myObj`]], ans:"A",
+ explanation:`Kotlin creates an object by calling the class constructor directly; it does not use the new keyword.`},
+
+{id:"m3-user-4", type:"single", topic:"Kotlin Functions", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`What is fname known as in the following code: fun myFunction(fname: String)?`,
+ opts:[["A",`override`],["B",`parameter`],["C",`inherit`],["D",`range`]], ans:"B",
+ explanation:`fname is a function parameter whose declared type is String.`},
+
+{id:"m3-user-5", type:"single", topic:"Kotlin Syntax", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`In Kotlin, code statements must end with a semicolon (;).`,
+ opts:[["A",`True`],["B",`False`]], ans:"B",
+ explanation:`Semicolons are optional in Kotlin and are not required at the end of ordinary statements.`},
+
+{id:"m3-user-6", type:"single", topic:"Kotlin Functions", difficulty:"Easy", source:"Requested Kotlin concept review",
+ stem:`Which line correctly begins the declaration of a Kotlin function named greet?`,
+ opts:[["A",`function greet()`],["B",`def greet()`],["C",`fun greet()`],["D",`void greet()`]], ans:"C",
+ explanation:`Kotlin uses the fun keyword before a function name.`},
+
+{id:"m3-user-7", type:"single", topic:"Kotlin Comments", difficulty:"Easy", source:"Requested Kotlin concept review",
+ stem:`Which symbol begins a single-line comment in Kotlin?`,
+ opts:[["A",`//`],["B",`#`],["C",`<!--`],["D",`**`]], ans:"A",
+ explanation:`Two forward slashes begin a single-line Kotlin comment.`},
+
+{id:"m3-user-8", type:"single", topic:"Kotlin Comments", difficulty:"Easy", source:"Requested Kotlin concept review",
+ stem:`Which pair of delimiters encloses a block or multi-line comment in Kotlin?`,
+ opts:[["A",`<!-- and -->`],["B",`/* and */`],["C",`{# and #}`],["D",`// and //`]], ans:"B",
+ explanation:`Kotlin block comments begin with /* and end with */.`},
+
+{id:"m3-user-9", type:"single", topic:"Kotlin Syntax", difficulty:"Easy", source:"Requested Kotlin concept review",
+ stem:`Which statement about semicolons in Kotlin is accurate?`,
+ opts:[["A",`Every statement must end with one`],["B",`They are optional in ordinary Kotlin code`],["C",`They are allowed only in comments`],["D",`They replace closing braces`]], ans:"B",
+ explanation:`Kotlin does not require a semicolon at the end of each ordinary statement.`}
 
   ]
 },
@@ -773,6 +956,81 @@ const QUESTION_SETS = {
  opts:[["A",`@drawable`],["B",`@color`],["C",`@layout`],["D",`@style`]], ans:"B",
  explanation:`Color resources are referenced in XML using the @color prefix, matching the R.color class used in code.`},
 
+// ---- Added questionnaire items ----
+{id:"m4-user-6", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Supplied Mobile Programming questionnaire",
+ stem:`Given the following resource, how should the color named blue be accessed from a Java file?`,
+ code:`<resources>
+    <color name="blue">#2196f3</color>
+    <string name="myapp">MyApp</string>
+</resources>`,
+ opts:[["A",`@+id/blue`],["B",`R.id.blue`],["C",`@color/blue`],["D",`R.color.blue`]], ans:"D",
+ explanation:`In Java or Kotlin source code, a color resource is referenced through the generated R class as R.color.blue. The @color/blue form is used in XML.`},
+
+{id:"m4-user-8", type:"single", topic:"Layouts and Views", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`A unique resource name for an element, used to obtain a reference to a View or ViewGroup from an application, is called a:`,
+ opts:[["A",`Control`],["B",`Resource ID`],["C",`Layout Attribute`],["D",`ViewGroup`]], ans:"B",
+ explanation:`A resource ID uniquely identifies the View or ViewGroup so application code can retrieve a reference to it.`},
+
+{id:"m4-user-9", type:"single", topic:"Intents and Extras", difficulty:"Medium", source:"Supplied Mobile Programming questionnaire",
+ stem:`The target component that receives an Intent can use putExtras() to retrieve the extra data sent by the source component.`,
+ opts:[["A",`True`],["B",`False`]], ans:"B",
+ explanation:`putExtras() attaches data to an Intent. The receiving component retrieves the attached Bundle with getExtras() or a type-specific get...Extra() method.`},
+
+{id:"m4-user-10", type:"single", topic:"Layouts and Views", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`UI elements cannot be instantiated at runtime in Android.`,
+ opts:[["A",`True`],["B",`False`]], ans:"B",
+ explanation:`Android UI elements can be created programmatically at runtime as well as declared in XML layouts.`},
+
+{id:"m4-user-12", type:"single", topic:"Layouts and Views", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`In Android, layouts are typically defined using JSON files.`,
+ opts:[["A",`True`],["B",`False`]], ans:"B",
+ explanation:`Android layouts are typically declared in XML files, although they can also be built programmatically.`},
+
+{id:"m4-user-13", type:"single", topic:"Intents and Activities", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`How do you start a new Activity using an Intent?`,
+ opts:[["A",`startActivity(intent)`],["B",`startService(intent)`],["C",`startContent(intent)`],["D",`startBroadcast(intent)`]], ans:"A",
+ explanation:`Passing the Intent to startActivity(intent) requests that Android launch the matching Activity.`},
+
+{id:"m4-user-14", type:"single", topic:"Layouts and Views", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`Android application layouts are created using HTML.`,
+ opts:[["A",`True`],["B",`False`]], ans:"B",
+ explanation:`Android normally uses XML layout resources or programmatic UI APIs rather than HTML for native application layouts.`},
+
+{id:"m4-user-15", type:"single", topic:"Activities", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`An Activity is one of Android's main application components and commonly represents a user-interface screen that the user can see.`,
+ opts:[["A",`True`],["B",`False`]], ans:"A",
+ explanation:`An Activity commonly represents one screen in an Android app and provides a window for user interaction.`},
+
+{id:"m4-user-16", type:"single", topic:"Intents", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`What are the two main types of Android Intents?`,
+ opts:[["A",`Static and Dynamic`],["B",`Internal and External`],["C",`Explicit and Implicit`],["D",`Direct and Indirect`]], ans:"C",
+ explanation:`Explicit Intents name a particular component; implicit Intents describe an action that a capable component can handle.`},
+
+{id:"m4-user-17", type:"single", topic:"Intents and Extras", difficulty:"Medium", source:"Supplied Mobile Programming questionnaire",
+ stem:`A target Activity can call Intent.getExtras() to obtain the attached Bundle and extract the data stored in it.`,
+ opts:[["A",`True`],["B",`False`]], ans:"A",
+ explanation:`getExtras() returns the Bundle of extra values attached to the received Intent, when such extras exist.`},
+
+{id:"m4-user-18", type:"single", topic:"Application Manifest", difficulty:"Easy", source:"Requested Android component concept review",
+ stem:`What is the main role of AndroidManifest.xml in an Android app?`,
+ opts:[["A",`Store the app's component declarations and essential configuration`],["B",`Draw every screen at runtime`],["C",`Compile Kotlin into machine code by itself`],["D",`Display device logs`]], ans:"A",
+ explanation:`AndroidManifest.xml declares essential app information such as components, permissions, and configuration.`},
+
+{id:"m4-user-19", type:"single", topic:"Layouts and Views", difficulty:"Easy", source:"Requested Android UI concept review",
+ stem:`Buttons and list controls placed on an Android screen are examples of what?`,
+ opts:[["A",`UI Views arranged by a layout`],["B",`Linux kernel drivers`],["C",`Gradle repositories`],["D",`Manifest permissions`]], ans:"A",
+ explanation:`Buttons and list controls are View elements that a layout arranges on the Activity's user interface.`},
+
+{id:"m4-user-20", type:"single", topic:"Application Components", difficulty:"Easy", source:"Requested Android component concept review",
+ stem:`Which Android application component normally provides and controls a full user-interface screen?`,
+ opts:[["A",`Activity`],["B",`Service`],["C",`Broadcast Receiver`],["D",`Content Provider`]], ans:"A",
+ explanation:`An Activity represents a screen with a user interface and handles the user's interaction with that screen.`},
+
+{id:"m4-user-21", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Requested Android resource concept review",
+ stem:`An image named logo.png is stored in res/drawable. Which code reference accesses it?`,
+ opts:[["A",`R.id.logo`],["B",`R.layout.logo`],["C",`R.drawable.logo`],["D",`@string/logo`]], ans:"C",
+ explanation:`A file in res/drawable is compiled as a drawable resource and accessed in code through R.drawable.`},
+
 // ---- Code fill-in-the-blank ----
 {id:"m4-cb-1", type:"code_blank", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
  stem:`Fill in the blank so this Kotlin code correctly sets res/drawable/myimage.png on an ImageView.`,
@@ -801,8 +1059,153 @@ val text = resources.getString(R.__BLANK_1__.greeting)`,
   ]
 },
 
+"module5": {
+  title: "Module 5 — Activities and Activity Lifecycle",
+  questions: [
+
+{id:"m5-1", type:"single", topic:"Activity Fundamentals", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`What does an Android Activity most commonly represent?`,
+ opts:[["A",`One screen of an app's user interface`],["B",`A database table`],["C",`A background-only process`],["D",`A Gradle dependency`]], ans:"A",
+ explanation:`The module defines an Activity as one screen of an Android app's user interface.`},
+
+{id:"m5-2", type:"single", topic:"Activity Fundamentals", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`How many Activities may an Android application contain?`,
+ opts:[["A",`Exactly one`],["B",`One or more`],["C",`Exactly two`],["D",`None if it has XML`]], ans:"B",
+ explanation:`An Android app may contain one or more Activities, with each Activity commonly representing a separate screen.`},
+
+{id:"m5-3", type:"single", topic:"Activity Fundamentals", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which Activity does an Android app normally show first when the app starts?`,
+ opts:[["A",`The stopped Activity`],["B",`The main Activity`],["C",`The last declared Service`],["D",`The Content Provider`]], ans:"B",
+ explanation:`The module states that an Android app starts by showing its main Activity.`},
+
+{id:"m5-4", type:"single", topic:"Creating Activities", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`An Android Activity class is a subclass of which platform class?`,
+ opts:[["A",`android.app.Activity`],["B",`android.app.Service`],["C",`android.view.Layout`],["D",`android.content.Intent`]], ans:"A",
+ explanation:`The module identifies android.app.Activity as the superclass for an Activity class.`},
+
+{id:"m5-5", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which lifecycle callback is called first when an Activity is initially created?`,
+ opts:[["A",`onStart()`],["B",`onResume()`],["C",`onCreate()`],["D",`onRestart()`]], ans:"C",
+ explanation:`onCreate() is the first callback and is used for the Activity's initial setup.`},
+
+{id:"m5-6", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback is called when an Activity becomes visible to the user?`,
+ opts:[["A",`onStart()`],["B",`onPause()`],["C",`onStop()`],["D",`onDestroy()`]], ans:"A",
+ explanation:`The module states that onStart() is called when the Activity becomes visible.`},
+
+{id:"m5-7", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback runs when the user can begin interacting with the Activity?`,
+ opts:[["A",`onCreate()`],["B",`onResume()`],["C",`onStop()`],["D",`onDestroy()`]], ans:"B",
+ explanation:`onResume() is called when the Activity enters the foreground and the user begins interacting with it.`},
+
+{id:"m5-8", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Which lifecycle callback is invoked when the current Activity is about to lose focus and become paused?`,
+ opts:[["A",`onPause()`],["B",`onRestart()`],["C",`onCreate()`],["D",`onDestroy()`]], ans:"A",
+ explanation:`onPause() is called as the current Activity is being paused, such as when another Activity comes to the foreground.`},
+
+{id:"m5-9", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback is called when an Activity is no longer visible?`,
+ opts:[["A",`onResume()`],["B",`onStart()`],["C",`onStop()`],["D",`onCreate()`]], ans:"C",
+ explanation:`The module defines onStop() as the callback used when the Activity is no longer visible.`},
+
+{id:"m5-10", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback may be called before an Activity is destroyed by the system?`,
+ opts:[["A",`onStart()`],["B",`onResume()`],["C",`onRestart()`],["D",`onDestroy()`]], ans:"D",
+ explanation:`onDestroy() is the callback associated with the Activity being destroyed, though it is not guaranteed if the process is terminated abruptly.`},
+
+{id:"m5-11", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback is called when a stopped Activity is about to start again?`,
+ opts:[["A",`onRestart()`],["B",`onCreate()`],["C",`onPause()`],["D",`onDestroy()`]], ans:"A",
+ explanation:`onRestart() is called when an Activity restarts after it has been stopped.`},
+
+{id:"m5-12", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Which sequence correctly describes the normal startup of a newly created Activity?`,
+ opts:[["A",`onCreate() → onStart() → onResume()`],["B",`onStart() → onCreate() → onResume()`],["C",`onResume() → onCreate() → onStart()`],["D",`onCreate() → onResume() → onStart()`]], ans:"A",
+ explanation:`A newly launched Activity normally proceeds through onCreate(), onStart(), and onResume().`},
+
+{id:"m5-13", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`A stopped Activity returns to the foreground. Which callback occurs before onStart()?`,
+ opts:[["A",`onPause()`],["B",`onRestart()`],["C",`onDestroy()`],["D",`onCreate()`]], ans:"B",
+ explanation:`A stopped Activity normally receives onRestart(), followed by onStart() and onResume().`},
+
+{id:"m5-14", type:"single", topic:"Creating Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Where must an Activity be declared in AndroidManifest.xml?`,
+ opts:[["A",`As an <activity> child of <application>`],["B",`As a <layout> child of <manifest>`],["C",`Inside build.gradle only`],["D",`Inside the drawable directory`]], ans:"A",
+ explanation:`The module instructs adding an <activity> element as a child of the manifest's <application> element.`},
+
+{id:"m5-15", type:"single", topic:"Layouts and Activities", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`In which project folder are the XML layout files loaded by an Activity normally stored?`,
+ opts:[["A",`res/layout`],["B",`res/drawable`],["C",`src/test`],["D",`gradle/wrapper`]], ans:"A",
+ explanation:`Activity layout XML files are stored under res/layout.`},
+
+{id:"m5-16", type:"single", topic:"Layouts and Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Which statement loads the UI defined in res/layout/activity_main.xml?`,
+ opts:[["A",`setContentView(R.layout.activity_main)`],["B",`startActivity(R.id.activity_main)`],["C",`setLayout(R.drawable.activity_main)`],["D",`loadManifest(R.layout.activity_main)`]], ans:"A",
+ explanation:`setContentView(R.layout.activity_main) installs the activity_main.xml layout as the Activity's content view.`},
+
+{id:"m5-17", type:"single", topic:"Kotlin Activity Project", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`What is MainActivity.kt used for in the module's Kotlin project example?`,
+ opts:[["A",`Writing the Activity's Kotlin code`],["B",`Storing image resources`],["C",`Declaring Gradle repositories`],["D",`Recording Logcat output`]], ans:"A",
+ explanation:`MainActivity.kt is the Kotlin source file containing the Activity's program logic.`},
+
+{id:"m5-18", type:"single", topic:"Kotlin Activity Project", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`What is activity_main.xml used for in the module's Kotlin project example?`,
+ opts:[["A",`Defining the main Activity's layout`],["B",`Declaring Kotlin functions`],["C",`Managing app dependencies`],["D",`Registering USB drivers`]], ans:"A",
+ explanation:`activity_main.xml contains the XML design and layout for the main Activity.`},
+
+{id:"m5-19", type:"single", topic:"Layouts and Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Why might an app with several Activities contain several layout XML files?`,
+ opts:[["A",`Each Activity can have a separate screen design`],["B",`Every Kotlin function requires an XML file`],["C",`Each log priority requires a layout`],["D",`Gradle creates one XML file per dependency`]], ans:"A",
+ explanation:`The module explains that each Activity can have a separate XML file specifying its design or layout.`},
+
+{id:"m5-20", type:"single", topic:"Running Activities", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`What can be used to run and test the completed Kotlin Activity when no physical phone is required?`,
+ opts:[["A",`An Android emulator`],["B",`A web browser extension`],["C",`A database server`],["D",`A text-only compiler`]], ans:"A",
+ explanation:`The module demonstrates running the application with an Android emulator.`},
+
+{id:"m5-21", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Supplied Mobile Programming questionnaire",
+ stem:`During a normal Activity finish, which lifecycle order is correct?`,
+ opts:[["A",`onDestroy() before onStop()`],["B",`onStop() before onDestroy()`],["C",`Only onStop() can occur`],["D",`Only onDestroy() can occur`]], ans:"B",
+ explanation:`During a normal finish, onPause() is followed by onStop(), and onDestroy() may then occur. Android does not guarantee onDestroy() if the process is killed.`},
+
+{id:"m5-22", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Supplied Mobile Programming questionnaire",
+ stem:`Which callback first marks the Activity as visible, before it becomes fully interactive?`,
+ opts:[["A",`onCreate()`],["B",`onStart()`],["C",`onResume()`],["D",`onPause()`]], ans:"B",
+ explanation:`onStart() makes the Activity visible; onResume() follows when it is in the foreground and ready for interaction.`},
+
+{id:"m5-23", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Supplied Mobile Programming questionnaire",
+ stem:`Must every Activity override onPause() in order for the application to run?`,
+ opts:[["A",`Yes, in every Activity`],["B",`Yes, but only in Kotlin`],["C",`No; override it only when pause-specific work is needed`],["D",`No; Android never calls onPause()`]], ans:"C",
+ explanation:`Android supplies the lifecycle callback automatically; an Activity only needs to override it when it has work to perform during pausing.`},
+
+{id:"m5-cb-1", type:"code_blank", topic:"Layouts and Activities", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Fill in the layout resource name used to load res/layout/activity_main.xml.`,
+ code:`setContentView(R.layout.__BLANK_1__)`,
+ blanks:[{id:1, answer:"activity_main"}],
+ explanation:`The file activity_main.xml is referenced without its extension as R.layout.activity_main.`},
+
+{id:"m5-cb-2", type:"code_blank", topic:"Activity Lifecycle", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Fill in the lifecycle callback name used for initial Activity setup.`,
+ code:`override fun __BLANK_1__(savedInstanceState: Bundle?) {
+    super.__BLANK_1__(savedInstanceState)
+    setContentView(R.layout.activity_main)
+}`,
+ blanks:[{id:1, answer:"onCreate"}],
+ explanation:`onCreate() is the callback used to initialize the Activity and load its content view.`},
+
+{id:"m5-cb-3", type:"code_blank", topic:"Creating Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Fill in the AndroidX Activity superclass used by this Kotlin declaration.`,
+ code:`class MainActivity : __BLANK_1__() {
+    // Activity code
+}`,
+ blanks:[{id:1, answer:"AppCompatActivity"}],
+ explanation:`A typical modern Android Activity extends AppCompatActivity, which ultimately provides Activity behavior.`}
+
+  ]
+},
+
 "comprehensive": {
-  title: "Comprehensive Quiz — Modules 1-4",
+  title: "Comprehensive Quiz — Modules 1-5",
   questions: [
 
 {id:"comp-1", type:"single", topic:"Android History", difficulty:"Easy", source:"Module 1 — Introduction to Android",
@@ -903,7 +1306,32 @@ val text = resources.getString(R.__BLANK_1__.greeting)`,
 {id:"comp-20", type:"multi", n:2, topic:"Application Components", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
  stem:`Which two of the following are core Android "Application Components" (as opposed to "Additional Components")? (Choose two.)`,
  opts:[["A",`Activity`],["B",`Fragment`],["C",`Service`],["D",`Layout`]], ans:["A","C"],
- explanation:`The module's core Application Components are Activities, Services, Broadcast Receivers, and Content Providers. Fragments and Layouts are listed separately as "Additional Components."`}
+ explanation:`The module's core Application Components are Activities, Services, Broadcast Receivers, and Content Providers. Fragments and Layouts are listed separately as "Additional Components."`},
+
+{id:"comp-21", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which tablet-focused Android release used the codename Honeycomb?`,
+ opts:[["A",`Android 2.x`],["B",`Android 3.x`],["C",`Android 4.0`],["D",`Android 5.x`]], ans:"B",
+ explanation:`Honeycomb refers to Android 3.0, 3.1, and 3.2, the tablet-focused Android generation.`},
+
+{id:"comp-22", type:"single", topic:"Logcat", difficulty:"Medium", source:"Requested Android Studio concept review",
+ stem:`Which standard Logcat priority is more severe than Error?`,
+ opts:[["A",`Verbose`],["B",`Debug`],["C",`Warn`],["D",`Assert`]], ans:"D",
+ explanation:`Assert is the highest standard Logcat priority and comes after Error in severity.`},
+
+{id:"comp-23", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which Activity callback occurs when the Activity becomes visible to the user?`,
+ opts:[["A",`onCreate()`],["B",`onStart()`],["C",`onPause()`],["D",`onStop()`]], ans:"B",
+ explanation:`onStart() is the callback associated with an Activity becoming visible.`},
+
+{id:"comp-24", type:"single", topic:"Creating Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Which manifest structure correctly registers an Activity?`,
+ opts:[["A",`An <activity> element inside <application>`],["B",`An <application> element inside <activity>`],["C",`A <layout> element inside <manifest>`],["D",`A <service> element inside res/layout`]], ans:"A",
+ explanation:`Activities are registered using <activity> elements placed inside the manifest's <application> element.`},
+
+{id:"comp-25", type:"single", topic:"Layouts and Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Which code loads activity_main.xml as an Activity's user interface?`,
+ opts:[["A",`setContentView(R.layout.activity_main)`],["B",`startActivity(R.layout.activity_main)`],["C",`getExtras(R.layout.activity_main)`],["D",`setImageResource(R.layout.activity_main)`]], ans:"A",
+ explanation:`setContentView() installs the referenced layout resource as the Activity's content view.`}
 
   ]
 }
@@ -1125,7 +1553,7 @@ function switchMode(mode){
 }
 
 function validOrder(o){
-  return Array.isArray(o) && o.length > 0 &&
+  return Array.isArray(o) && o.length === allQuestions.length &&
     o.every(i=> Number.isInteger(i) && i >= 0 && i < allQuestions.length) &&
     new Set(o).size === o.length;
 }
