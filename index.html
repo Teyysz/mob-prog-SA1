@@ -1205,7 +1205,7 @@ val text = resources.getString(R.__BLANK_1__.greeting)`,
 },
 
 "comprehensive": {
-  title: "Comprehensive Quiz — Modules 1-5",
+  title: "Comprehensive Quiz — 50 Items (Modules 1-5)",
   questions: [
 
 {id:"comp-1", type:"single", topic:"Android History", difficulty:"Easy", source:"Module 1 — Introduction to Android",
@@ -1331,7 +1331,132 @@ val text = resources.getString(R.__BLANK_1__.greeting)`,
 {id:"comp-25", type:"single", topic:"Layouts and Activities", difficulty:"Medium", source:"Module 5 — Activities",
  stem:`Which code loads activity_main.xml as an Activity's user interface?`,
  opts:[["A",`setContentView(R.layout.activity_main)`],["B",`startActivity(R.layout.activity_main)`],["C",`getExtras(R.layout.activity_main)`],["D",`setImageResource(R.layout.activity_main)`]], ans:"A",
- explanation:`setContentView() installs the referenced layout resource as the Activity's content view.`}
+ explanation:`setContentView() installs the referenced layout resource as the Activity's content view.`},
+
+{id:"comp-26", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which device carried the first commercial Android version?`,
+ opts:[["A",`Nexus S`],["B",`Motorola Xoom`],["C",`Samsung Galaxy S`],["D",`HTC Dream`]], ans:"D",
+ explanation:`The module identifies the HTC Dream as the device that received the first commercial Android release.`},
+
+{id:"comp-27", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Large-screen support and faster system applications were notable improvements in which release?`,
+ opts:[["A",`Android 1.5 Cupcake`],["B",`Android 2.0 Eclair`],["C",`Android 1.6 Donut`],["D",`Android 2.2 Froyo`]], ans:"C",
+ explanation:`Android 1.6 Donut added support for larger screens and improved the speed of system applications.`},
+
+{id:"comp-28", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Wi-Fi hotspot functionality and animated GIF support were introduced with:`,
+ opts:[["A",`Eclair`],["B",`Gingerbread`],["C",`Honeycomb`],["D",`Froyo`]], ans:"D",
+ explanation:`Android 2.2 Froyo added Wi-Fi hotspot functionality, animated GIF support, and browser file uploads.`},
+
+{id:"comp-29", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Face Unlock and Wi-Fi Direct appeared in which Android version?`,
+ opts:[["A",`Honeycomb`],["B",`Jelly Bean`],["C",`Ice Cream Sandwich`],["D",`KitKat`]], ans:"C",
+ explanation:`Android 4.0 Ice Cream Sandwich introduced Face Unlock and Wi-Fi Direct among its listed features.`},
+
+{id:"comp-30", type:"single", topic:"Android Versions", difficulty:"Medium", source:"Module 1 — Introduction to Android",
+ stem:`Which Android version included native screen recording, notification history, and automatic permission revocation?`,
+ opts:[["A",`Android 9`],["B",`Android 10`],["C",`Android 11`],["D",`Android 12`]], ans:"C",
+ explanation:`The module lists native screen recording, notification history, and auto-revoking permissions under Android 11.`},
+
+{id:"comp-31", type:"single", topic:"Android Architecture", difficulty:"Easy", source:"Module 1 — Introduction to Android",
+ stem:`Where is Activity Manager located in the Android architecture?`,
+ opts:[["A",`Applications layer`],["B",`Platform Libraries layer`],["C",`Linux Kernel layer`],["D",`Application Framework layer`]], ans:"D",
+ explanation:`The architecture diagram places Activity Manager in the Application Framework layer.`},
+
+{id:"comp-32", type:"single", topic:"Logcat", difficulty:"Easy", source:"Requested Android Studio concept review",
+ stem:`What information is primarily displayed by Android Studio's Logcat window?`,
+ opts:[["A",`XML layout previews`],["B",`Gradle dependency diagrams`],["C",`Emulator hardware specifications`],["D",`Application and system log messages`]], ans:"D",
+ explanation:`Logcat displays device, system, and application messages used to monitor behavior and diagnose errors.`},
+
+{id:"comp-33", type:"single", topic:"Device Testing", difficulty:"Medium", source:"Requested Android Studio concept review",
+ stem:`What action commonly unlocks Developer options on an Android device?`,
+ opts:[["A",`Repeatedly tapping the Build number`],["B",`Restarting while holding both volume buttons`],["C",`Installing Gradle on the phone`],["D",`Opening Logcat seven times`]], ans:"A",
+ explanation:`Developer options are commonly unlocked by repeatedly tapping Build number in About phone or Software information.`},
+
+{id:"comp-34", type:"single", topic:"Gradle", difficulty:"Medium", source:"Requested Android Studio concept review",
+ stem:`Which task is Gradle responsible for in an Android project?`,
+ opts:[["A",`Drawing Views directly on the device`],["B",`Replacing the Android operating system`],["C",`Displaying Activity lifecycle callbacks`],["D",`Automating builds and resolving dependencies`]], ans:"D",
+ explanation:`Gradle configures and automates project builds while managing required libraries and plugins.`},
+
+{id:"comp-35", type:"single", topic:"Running Apps", difficulty:"Easy", source:"Module 2 — Android Studio",
+ stem:`Which Android Studio tool is used to create and manage emulator devices?`,
+ opts:[["A",`Logcat`],["B",`Layout Inspector`],["C",`Build Variants`],["D",`Device Manager`]], ans:"D",
+ explanation:`Device Manager is used to create, configure, and launch Android Virtual Devices.`},
+
+{id:"comp-36", type:"single", topic:"Kotlin Functions", difficulty:"Easy", source:"Module 3 — Introduction to Kotlin",
+ stem:`Which keyword begins a function declaration in Kotlin?`,
+ opts:[["A",`def`],["B",`func`],["C",`fun`],["D",`function`]], ans:"C",
+ explanation:`Kotlin uses the fun keyword to declare a function.`},
+
+{id:"comp-37", type:"single", topic:"Kotlin Arrays", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`What is the index of the first element in a Kotlin array?`,
+ opts:[["A",`-1`],["B",`1`],["C",`0`],["D",`nil`]], ans:"C",
+ explanation:`Kotlin arrays use zero-based indexing, so their first element is at index 0.`},
+
+{id:"comp-38", type:"single", topic:"Kotlin Comments", difficulty:"Easy", source:"Requested Kotlin concept review",
+ stem:`Which characters begin a single-line comment in Kotlin?`,
+ opts:[["A",`//`],["B",`#`],["C",`<!--`],["D",`/*`]], ans:"A",
+ explanation:`Two forward slashes begin a Kotlin single-line comment.`},
+
+{id:"comp-39", type:"single", topic:"Kotlin Syntax", difficulty:"Easy", source:"Requested Kotlin concept review",
+ stem:`How does Kotlin normally treat semicolons at the end of statements?`,
+ opts:[["A",`They are required after every statement`],["B",`They are permitted only in loops`],["C",`They are optional in ordinary code`],["D",`They replace closing braces`]], ans:"C",
+ explanation:`Kotlin does not normally require semicolons at the ends of statements.`},
+
+{id:"comp-40", type:"single", topic:"Kotlin OOP", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`Which Kotlin statement correctly creates an instance of MyClass?`,
+ opts:[["A",`myObj = new MyClass()`],["B",`MyClass.new(myObj)`],["C",`val myObj : new MyClass`],["D",`val myObj = MyClass()`]], ans:"D",
+ explanation:`Kotlin calls the class constructor directly and does not use Java's new keyword.`},
+
+{id:"comp-41", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`How is a color resource named blue accessed from Java or Kotlin source code?`,
+ opts:[["A",`@color/blue`],["B",`R.id.blue`],["C",`R.color.blue`],["D",`R.layout.blue`]], ans:"C",
+ explanation:`Source code accesses a color through the generated R class as R.color.blue; @color/blue is the XML form.`},
+
+{id:"comp-42", type:"single", topic:"Layouts and Views", difficulty:"Easy", source:"Supplied Mobile Programming questionnaire",
+ stem:`What uniquely identifies a View so application code can retrieve it?`,
+ opts:[["A",`Resource ID`],["B",`Layout width`],["C",`Manifest version`],["D",`Gradle task`]], ans:"A",
+ explanation:`A resource ID gives a View or ViewGroup a unique name that application code can reference.`},
+
+{id:"comp-43", type:"single", topic:"Intents", difficulty:"Easy", source:"Module 4 — Application Components and Resources",
+ stem:`What are the two main categories of Android Intent?`,
+ opts:[["A",`Static and dynamic`],["B",`Explicit and implicit`],["C",`Public and private`],["D",`Local and remote`]], ans:"B",
+ explanation:`Android Intents are categorized as explicit, which name a component, or implicit, which describe an action.`},
+
+{id:"comp-44", type:"single", topic:"Accessing Resources", difficulty:"Medium", source:"Module 4 — Application Components and Resources",
+ stem:`An image named logo.png is inside res/drawable. Which reference accesses it in code?`,
+ opts:[["A",`R.id.logo`],["B",`R.string.logo`],["C",`R.layout.logo`],["D",`R.drawable.logo`]], ans:"D",
+ explanation:`Files inside res/drawable are accessed through R.drawable using the filename without its extension.`},
+
+{id:"comp-45", type:"single", topic:"Activity Fundamentals", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which Activity normally appears first when an Android application launches?`,
+ opts:[["A",`Main Activity`],["B",`Stopped Activity`],["C",`Destroyed Activity`],["D",`Background Service`]], ans:"A",
+ explanation:`The module states that an Android application starts by showing its main Activity.`},
+
+{id:"comp-46", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback indicates that the Activity is in the foreground and ready for user interaction?`,
+ opts:[["A",`onCreate()`],["B",`onStart()`],["C",`onResume()`],["D",`onStop()`]], ans:"C",
+ explanation:`onResume() is called when the Activity enters the foreground and the user can interact with it.`},
+
+{id:"comp-47", type:"single", topic:"Activity Lifecycle", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`Which callback occurs when an Activity is no longer visible to the user?`,
+ opts:[["A",`onStart()`],["B",`onResume()`],["C",`onPause()`],["D",`onStop()`]], ans:"D",
+ explanation:`onStop() is called when the Activity is no longer visible.`},
+
+{id:"comp-48", type:"single", topic:"Activity Lifecycle", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`A previously stopped Activity is about to start again. Which callback runs first?`,
+ opts:[["A",`onRestart()`],["B",`onDestroy()`],["C",`onCreate()`],["D",`onPause()`]], ans:"A",
+ explanation:`onRestart() is called when a stopped Activity is preparing to start again.`},
+
+{id:"comp-49", type:"single", topic:"Kotlin Activity Project", difficulty:"Easy", source:"Module 5 — Activities",
+ stem:`What does MainActivity.kt contain in the module's Kotlin project example?`,
+ opts:[["A",`The XML screen layout`],["B",`The app's image files`],["C",`The emulator hardware profile`],["D",`The Activity's Kotlin source code`]], ans:"D",
+ explanation:`MainActivity.kt is the Kotlin source file that contains the Activity's program logic.`},
+
+{id:"comp-50", type:"single", topic:"Layouts and Activities", difficulty:"Medium", source:"Module 5 — Activities",
+ stem:`Why can an application with multiple Activities have multiple XML layout files?`,
+ opts:[["A",`Each Activity can use a separate screen design`],["B",`Each Kotlin variable needs its own XML file`],["C",`Every Gradle dependency creates a layout`],["D",`Each Logcat priority requires a layout`]], ans:"A",
+ explanation:`Each Activity can have its own XML file defining the design and arrangement of its screen.`}
 
   ]
 }
