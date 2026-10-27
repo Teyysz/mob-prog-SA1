@@ -1544,6 +1544,61 @@ val text = resources.getString(R.__BLANK_1__.greeting)`,
 
 };
 
+/* Corrected Module 6 will be assigned below before validation. */
+const uiQ = (id, topic, difficulty, stem, opts, ans, explanation) => ({
+  id, type: "single", topic, difficulty, source: "Module 6 — Android User Interface", stem,
+  opts: opts.map((text, i) => [String.fromCharCode(65 + i), text]), ans, explanation
+});
+QUESTION_SETS.module6 = {
+  title: "Module 6 — Android User Interface",
+  questions: [
+uiQ("m6-ui-1","View and ViewGroup","Easy","What is a View?",["An object that usually draws something the user can see and interact with","An invisible container only","A resource folder","A database object"],"A","A View usually draws something visible and interactive on the screen."),
+uiQ("m6-ui-2","View and ViewGroup","Easy","What is a ViewGroup?",["An invisible container for View and other ViewGroup objects","A single text label","A Kotlin function","An Android permission"],"A","A ViewGroup holds View and other ViewGroup objects to define the layout structure."),
+uiQ("m6-ui-3","Layouts","Easy","What does a layout define?",["The structure for a user interface","The app's database","The Android version","The network connection"],"A","A layout defines the structure for a user interface in an Activity or UI component."),
+uiQ("m6-ui-4","View and ViewGroup","Easy","An individual UI component is generally referred to as a what?",["Widget","Service","Intent","Bundle"],"A","View objects are usually called widgets."),
+uiQ("m6-ui-5","View and ViewGroup","Easy","ViewGroup objects are usually called what?",["Layouts","Widgets","Activities","Resources"],"A","ViewGroup objects are usually called layouts."),
+uiQ("m6-ui-6","View and ViewGroup","Easy","Which is an example of a View?",["TextView","LinearLayout","RelativeLayout","FrameLayout"],"A","TextView is a View object; the other choices are ViewGroup layout types."),
+uiQ("m6-ui-7","View and ViewGroup","Easy","Which is an example of a ViewGroup?",["LinearLayout","Button","TextView","CheckBox"],"A","LinearLayout is a ViewGroup that contains child views."),
+uiQ("m6-ui-8","Layouts","Medium","How many root elements must each layout file contain?",["Exactly one","Exactly two","At least three","No root element"],"A","Each layout file must contain exactly one root View or ViewGroup element."),
+uiQ("m6-ui-9","Declaring UI Elements","Easy","What are the two ways to declare View and ViewGroup elements?",["XML and runtime instantiation","JSON and HTML","SQL and XML only","Kotlin and CSS only"],"A","The module presents declaring UI elements in XML and instantiating layout elements at runtime."),
+uiQ("m6-ui-10","Declaring UI Elements","Easy","In Android, layouts are typically defined in JSON files.",["True","False"],"B","Android layouts in this module are declared using XML, not JSON."),
+uiQ("m6-ui-11","Declaring UI Elements","Easy","You can create UI elements at runtime.",["True","False"],"A","Runtime instantiation is one way to create View and ViewGroup elements."),
+uiQ("m6-ui-12","Layout Resource","Easy","Where is a layout resource file stored?",["res/layout/filename.xml","res/drawable/filename.xml","src/database/filename.xml","assets/layout.xml"],"A","The module gives res/layout/filename.xml as the layout resource location."),
+uiQ("m6-ui-13","Layout Resource","Medium","What is used as the resource ID of a layout file?",["The filename","The file size","The folder color","The Activity title"],"A","The filename is used as the resource ID."),
+uiQ("m6-ui-14","Layout Resource","Easy","How is a layout resource referenced in Java?",["R.layout.filename","R.view.filename","@layout.filename","layout.filename.xml"],"A","The Java reference format is R.layout.filename."),
+uiQ("m6-ui-15","Layout Resource","Easy","Which XML prefix references a layout resource?",["@layout","@drawable","@string","@view"],"A","The XML reference format uses the @layout prefix."),
+uiQ("m6-ui-16","Resource ID","Easy","What does a resource ID uniquely identify?",["A View or ViewGroup element","A Kotlin class only","A device model","A database row"],"A","A resource ID is a unique name used to obtain a reference to a View or ViewGroup."),
+uiQ("m6-ui-17","Resource ID","Medium","Which syntax creates a new resource ID in XML?",["@+id/name","@id+name","#id/name","R.id+name"],"A","The plus symbol in @+id/name indicates that a new resource ID should be created."),
+uiQ("m6-ui-18","Layout Attributes","Easy","Which attributes define the height and width of a layout element?",["android:layout_height and android:layout_width","android:id and android:text","android:name and android:color","android:root and android:child"],"A","These attributes define the required height and width dimensions."),
+uiQ("m6-ui-19","LinearLayout","Easy","What does LinearLayout do with child View instances?",["Renders them one by one","Always overlays them","Only displays them in a table","Removes them at runtime"],"A","LinearLayout renders child views one by one according to its orientation."),
+uiQ("m6-ui-20","LinearLayout","Easy","Which attribute specifies the direction of a LinearLayout?",["android:orientation","android:directionId","android:layoutType","android:row"],"A","android:orientation specifies horizontal or vertical direction."),
+uiQ("m6-ui-21","RelativeLayout","Easy","What does RelativeLayout specify?",["The position of child views relative to each other or the parent","Only the text of a widget","Only rows and columns","Only web pages"],"A","RelativeLayout positions child views relative to each other or the parent."),
+uiQ("m6-ui-22","RelativeLayout","Medium","Why can RelativeLayout improve layout performance?",["It can reduce nested ViewGroups and keep the hierarchy flat","It removes all Views","It converts XML to JSON","It disables event listeners"],"A","It can eliminate nested ViewGroups and keep the layout hierarchy flat."),
+uiQ("m6-ui-23","FrameLayout","Easy","What is FrameLayout designed to do?",["Block out an area on the screen to display a child item","Display only table rows","Show web pages only","Create resource IDs"],"A","FrameLayout acts as a placeholder that can hold child views in a stacked area."),
+uiQ("m6-ui-24","FrameLayout","Medium","Which child appears on top when multiple children are stacked in a FrameLayout?",["The most recently added child","The first child always","The smallest child","The child with no ID"],"A","The most recently added child appears on top."),
+uiQ("m6-ui-25","TableLayout","Easy","What does TableLayout use to arrange child Views?",["Rows and columns","Only a vertical line","Only overlapping layers","Web page sections"],"A","TableLayout positions child elements into rows and columns."),
+uiQ("m6-ui-26","WebView","Easy","What is WebView used for?",["Showing static or remote web page content inside an Activity","Creating a table of buttons","Grouping radio buttons","Handling long clicks"],"A","WebView acts as an embedded browser for web page content in an Activity layout."),
+uiQ("m6-ui-27","Controls","Easy","Which control is used to display text to the user?",["TextView","Spinner","ProgressBar","DatePicker"],"A","TextView is used to display text to the user."),
+uiQ("m6-ui-28","Controls","Easy","Which control lets users select one value from a drop-down list?",["Spinner","CheckBox","TextView","ProgressBar"],"A","Spinner is a drop-down list that allows users to select one value from a set."),
+uiQ("m6-ui-29","Controls","Easy","Which control provides visual feedback about an ongoing task?",["ProgressBar","RadioButton","EditText","WebView"],"A","ProgressBar provides visual feedback about an ongoing task."),
+uiQ("m6-ui-30","Controls","Easy","Which control is appropriate for options that are not mutually exclusive?",["CheckBox","RadioButton","Spinner","TimePicker"],"A","A CheckBox is used for selectable options that are not mutually exclusive."),
+uiQ("m6-ui-31","Event Handling","Easy","An event listener is an interface in which class?",["View","Intent","Bundle","ActivityThread"],"A","The module defines an event listener as an interface in the View class."),
+uiQ("m6-ui-32","Event Handling","Easy","Which event handler is called when a user clicks or touches a widget?",["onClick()","onLongClick()","onFocusChange()","onMenuItemClick()"],"A","onClick() handles a click or touch interaction with a widget."),
+uiQ("m6-ui-33","Event Handling","Easy","Which listener is connected with the onClick() event handler?",["OnClickListener()","OnTouchListener()","OnKeyListener()","OnMenuItemClickListener()"],"A","OnClickListener is the listener for the onClick() event handler."),
+uiQ("m6-ui-34","Event Handling","Medium","Which event handler is called when a widget is touched for one or more seconds?",["onLongClick()","onClick()","onKey()","onFocusChange()"],"A","onLongClick() handles a sustained click or touch interaction."),
+uiQ("m6-ui-35","Event Handling","Easy","Which event handler is called when a menu item is selected?",["onMenuItemClick()","onClick()","onTouch()","onKey()"],"A","onMenuItemClick() handles selection of a menu item."),
+uiQ("m6-ui-36","Event Handling","Easy","Which event handler is related to a hardware key press or release?",["onKey()","onClick()","onMenuItemClick()","onLongClick()"],"A","onKey() handles a hardware key press or release."),
+uiQ("m6-ui-37","Event Handling","Easy","Which event handler responds to touch interaction?",["onTouch()","onKey()","onFocusChange()","onCreateContextMenu()"],"A","onTouch() handles touch interaction on a widget."),
+uiQ("m6-ui-38","Event Handling","Hard","What happens when a registered event listener is triggered?",["The Android framework calls its callback method","The layout file is deleted","The View becomes a Bundle","The resource ID changes"],"A","The Android framework calls the listener callback when the registered View is triggered by user interaction.")
+  ]
+};
+QUESTION_SETS.comprehensive.questions = QUESTION_SETS.comprehensive.questions
+  .filter(q => !["comp-51","comp-52","comp-53"].includes(q.id))
+  .concat([
+    uiQ("comp-51","View and ViewGroup","Easy","What is a ViewGroup?",["An invisible container for View and other ViewGroup objects","A single text label","A Kotlin function","An Android permission"],"A","A ViewGroup holds View and other ViewGroup objects to define the layout structure."),
+    uiQ("comp-52","LinearLayout","Easy","Which attribute specifies the direction of a LinearLayout?",["android:orientation","android:directionId","android:layoutType","android:row"],"A","android:orientation specifies horizontal or vertical direction."),
+    uiQ("comp-53","Event Handling","Easy","Which listener is connected with the onClick() event handler?",["OnClickListener()","OnTouchListener()","OnKeyListener()","OnMenuItemClickListener()"],"A","OnClickListener is the listener for the onClick() event handler.")
+  ]);
 /* =========================================================================
    QUESTION-DATA VALIDATION
 ========================================================================= */
